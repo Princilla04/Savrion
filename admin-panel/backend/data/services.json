@@ -1,0 +1,172 @@
+[
+  {
+    "_id": "doc_1786945945015_8ejvgz",
+    "createdAt": "2026-08-17T05:52:25.015Z",
+    "updatedAt": "2026-08-17T05:52:25.015Z",
+    "title": "Web Application Development",
+    "slug": "web-development",
+    "icon": "Globe",
+    "shortDescription": "Architecting high-concurrency, responsive, modern web applications engineered for speed, security, and global scalability.",
+    "detailedDescription": "Savrion builds cutting-edge enterprise web applications leveraging modern frontend frameworks, decoupled headless APIs, and cloud-native backends. We specialize in micro-frontends, responsive progressive web apps (PWAs), high-speed single-page applications, and interactive corporate portals designed to handle millions of transactions seamlessly.",
+    "capabilities": [
+      "Enterprise Full-Stack Architecture",
+      "Progressive Web Apps (PWA)",
+      "High-Performance Single Page Apps (SPA)",
+      "Micro-Frontend Modular Systems",
+      "Real-time Websockets & Event Streaming",
+      "SEO & Core Web Vitals Optimization"
+    ],
+    "technologies": [
+      "React.js",
+      "Node.js",
+      "Express",
+      "Vite",
+      "JavaScript",
+      "REST APIs",
+      "GraphQL",
+      "Tailwind CSS"
+    ],
+    "status": "active",
+    "order": 1
+  },
+  {
+    "_id": "doc_1786945945016_mqy8vx",
+    "createdAt": "2026-08-17T05:52:25.016Z",
+    "updatedAt": "2026-08-17T05:52:25.016Z",
+    "title": "Mobile App Development",
+    "slug": "mobile-development",
+    "icon": "Smartphone",
+    "shortDescription": "Delivering native-performance cross-platform iOS and Android mobile solutions with fluid animations and offline sync.",
+    "detailedDescription": "From consumer-facing mobile apps to internal enterprise workforce tooling, Savrion engineers fluid, high-performance mobile applications. We utilize React Native, Flutter, and native toolchains to provide continuous deployment, biometric security, offline caching, push notifications, and rich sensor integration.",
+    "capabilities": [
+      "Cross-Platform iOS & Android Apps",
+      "Offline-First Data Synchronization",
+      "Native Device Hardware Integration",
+      "Biometric Security & Encrypted Local Storage",
+      "Push Notification & In-App Messaging Systems",
+      "App Store & Google Play Deployment Automation"
+    ],
+    "technologies": [
+      "React Native",
+      "Flutter",
+      "iOS Swift",
+      "Android Kotlin",
+      "Firebase",
+      "Redux",
+      "GraphQL"
+    ],
+    "status": "active",
+    "order": 2
+  },
+  {
+    "_id": "doc_1786945945017_wm1nmu",
+    "createdAt": "2026-08-17T05:52:25.017Z",
+    "updatedAt": "2026-08-17T05:52:25.017Z",
+    "title": "Custom Software Solutions",
+    "slug": "custom-software",
+    "icon": "Code",
+    "shortDescription": "Bespoke digital platforms, ERP systems, and workflow engines tailored precisely to enterprise operational workflows.",
+    "detailedDescription": "Off-the-shelf software rarely fits complex corporate requirements. Savrion designs and builds bespoke enterprise software platforms from the ground up. Whether modernizing legacy mainframe systems or engineering proprietary fintech algorithms, our engineering team ensures modularity, security, and scalable maintainability.",
+    "capabilities": [
+      "Custom Enterprise Resource Planning (ERP)",
+      "Automated Workflow & Business Logic Engines",
+      "Legacy Codebase Modernization & Refactoring",
+      "High-Security Data Ingestion Pipelines",
+      "Multi-Tenant SaaS Platform Engineering",
+      "Custom CRM & Internal Admin Dashboards"
+    ],
+    "technologies": [
+      "Node.js",
+      "Python",
+      "MongoDB",
+      "PostgreSQL",
+      "Docker",
+      "Redis",
+      "REST APIs"
+    ],
+    "status": "active",
+    "order": 3
+  },
+  {
+    "_id": "doc_1786945945018_2fi4rw",
+    "createdAt": "2026-08-17T05:52:25.018Z",
+    "updatedAt": "2026-08-17T05:52:25.018Z",
+    "title": "UI/UX Design & Prototyping",
+    "slug": "ui-ux-design",
+    "icon": "Layout",
+    "shortDescription": "Data-driven UI/UX design, interactive prototyping, and comprehensive enterprise design systems that maximize user engagement.",
+    "detailedDescription": "We blend human-centered design principles with sleek corporate aesthetics. Our design team conducts deep user journey mapping, wireframing, high-fidelity clickable prototyping, usability testing, and creates multi-brand design systems with reusable token architectures.",
+    "capabilities": [
+      "User Research & Journey Mapping",
+      "Interactive High-Fidelity Wireframes",
+      "Enterprise Design Systems & Token Libraries",
+      "Design-to-Code Component Synchrony",
+      "Accessibility (WCAG 2.1 AA) Compliance",
+      "Rapid Prototype Validation & Testing"
+    ],
+    "technologies": [
+      "Figma",
+      "Design Tokens",
+      "CSS3 / SCSS",
+      "Prototyping",
+      "Design Systems"
+    ],
+    "status": "active",
+    "order": 4
+  },
+  {
+    "_id": "doc_1786945945019_0r6nq7",
+    "createdAt": "2026-08-17T05:52:25.019Z",
+    "updatedAt": "2026-08-17T05:52:25.019Z",
+    "title": "Cloud Solutions & DevOps",
+    "slug": "cloud-solutions",
+    "icon": "Cloud",
+    "shortDescription": "Cloud architecture, zero-downtime CI/CD pipelines, Kubernetes container orchestration, and serverless infrastructure.",
+    "detailedDescription": "Accelerate your product release cycle with robust cloud infrastructure and automated DevOps practices. We architect fault-tolerant, multi-region cloud infrastructures across AWS, Google Cloud, and Microsoft Azure, implementing automated testing, containerization, Infrastructure as Code, and 24/7 observability.",
+    "capabilities": [
+      "Multi-Cloud & Hybrid Cloud Architecture",
+      "Continuous Integration & Continuous Delivery (CI/CD)",
+      "Kubernetes & Docker Container Orchestration",
+      "Infrastructure as Code (Terraform & Ansible)",
+      "Serverless & Auto-Scaling Compute",
+      "Real-time APM & CloudWatch Observability"
+    ],
+    "technologies": [
+      "AWS",
+      "Google Cloud",
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "GitHub Actions",
+      "Nginx"
+    ],
+    "status": "active",
+    "order": 5
+  },
+  {
+    "_id": "doc_1786945945020_xk1t8j",
+    "createdAt": "2026-08-17T05:52:25.020Z",
+    "updatedAt": "2026-08-17T05:52:25.020Z",
+    "title": "IT Consulting & Digital Strategy",
+    "slug": "it-consulting",
+    "icon": "Cpu",
+    "shortDescription": "Strategic technology advisory, code audits, architecture reviews, and digital transformation roadmaps for leaders.",
+    "detailedDescription": "Savrion advises C-suite technology leaders on strategic digital transformation, architecture modernization, and cybersecurity compliance. We audit existing software portfolios, identify performance bottlenecks, reduce cloud costs, and devise scalable technology strategies that fuel business growth.",
+    "capabilities": [
+      "Technology Stack & Architecture Audits",
+      "Legacy-to-Cloud Migration Roadmaps",
+      "Cloud Cost & Performance Optimization",
+      "Cybersecurity Governance & Posture Audits",
+      "Engineering Team Mentorship & Agile Coaching",
+      "Compliance & Data Protection Advisory"
+    ],
+    "technologies": [
+      "Enterprise Architecture",
+      "Microservices",
+      "Security Auditing",
+      "Cloud Strategy"
+    ],
+    "status": "active",
+    "order": 6
+  }
+]

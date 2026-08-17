@@ -1,0 +1,178 @@
+[
+  {
+    "_id": "doc_1786945945032_k5l0jq",
+    "createdAt": "2026-08-17T05:52:25.032Z",
+    "updatedAt": "2026-08-17T05:52:25.032Z",
+    "name": "React.js",
+    "category": "Frontend",
+    "icon": "Layers",
+    "proficiency": 98,
+    "status": "active",
+    "order": 1
+  },
+  {
+    "_id": "doc_1786945945034_39gxnc",
+    "createdAt": "2026-08-17T05:52:25.034Z",
+    "updatedAt": "2026-08-17T05:52:25.034Z",
+    "name": "JavaScript / ESNext",
+    "category": "Frontend",
+    "icon": "Code",
+    "proficiency": 99,
+    "status": "active",
+    "order": 2
+  },
+  {
+    "_id": "doc_1786945945035_fovqp3",
+    "createdAt": "2026-08-17T05:52:25.035Z",
+    "updatedAt": "2026-08-17T05:52:25.035Z",
+    "name": "Vite & Modern Tooling",
+    "category": "Frontend",
+    "icon": "Zap",
+    "proficiency": 95,
+    "status": "active",
+    "order": 3
+  },
+  {
+    "_id": "doc_1786945945036_abukkx",
+    "createdAt": "2026-08-17T05:52:25.036Z",
+    "updatedAt": "2026-08-17T05:52:25.036Z",
+    "name": "Node.js",
+    "category": "Backend",
+    "icon": "Server",
+    "proficiency": 96,
+    "status": "active",
+    "order": 4
+  },
+  {
+    "_id": "doc_1786945945037_h81hsy",
+    "createdAt": "2026-08-17T05:52:25.037Z",
+    "updatedAt": "2026-08-17T05:52:25.037Z",
+    "name": "Express.js",
+    "category": "Backend",
+    "icon": "Cpu",
+    "proficiency": 97,
+    "status": "active",
+    "order": 5
+  },
+  {
+    "_id": "doc_1786945945038_ui78nm",
+    "createdAt": "2026-08-17T05:52:25.038Z",
+    "updatedAt": "2026-08-17T05:52:25.038Z",
+    "name": "Python",
+    "category": "Backend",
+    "icon": "Terminal",
+    "proficiency": 92,
+    "status": "active",
+    "order": 6
+  },
+  {
+    "_id": "doc_1786945945038_76urhl",
+    "createdAt": "2026-08-17T05:52:25.038Z",
+    "updatedAt": "2026-08-17T05:52:25.038Z",
+    "name": "MongoDB & Mongoose",
+    "category": "Database",
+    "icon": "Database",
+    "proficiency": 95,
+    "status": "active",
+    "order": 7
+  },
+  {
+    "_id": "doc_1786945945039_t6zmhm",
+    "createdAt": "2026-08-17T05:52:25.039Z",
+    "updatedAt": "2026-08-17T05:52:25.039Z",
+    "name": "PostgreSQL",
+    "category": "Database",
+    "icon": "HardDrive",
+    "proficiency": 90,
+    "status": "active",
+    "order": 8
+  },
+  {
+    "_id": "doc_1786945945040_kvf799",
+    "createdAt": "2026-08-17T05:52:25.040Z",
+    "updatedAt": "2026-08-17T05:52:25.040Z",
+    "name": "Redis Caching",
+    "category": "Database",
+    "icon": "Zap",
+    "proficiency": 93,
+    "status": "active",
+    "order": 9
+  },
+  {
+    "_id": "doc_1786945945041_su7ri9",
+    "createdAt": "2026-08-17T05:52:25.041Z",
+    "updatedAt": "2026-08-17T05:52:25.041Z",
+    "name": "React Native",
+    "category": "Mobile",
+    "icon": "Smartphone",
+    "proficiency": 92,
+    "status": "active",
+    "order": 10
+  },
+  {
+    "_id": "doc_1786945945042_fzzlkk",
+    "createdAt": "2026-08-17T05:52:25.042Z",
+    "updatedAt": "2026-08-17T05:52:25.042Z",
+    "name": "Flutter",
+    "category": "Mobile",
+    "icon": "Smartphone",
+    "proficiency": 88,
+    "status": "active",
+    "order": 11
+  },
+  {
+    "_id": "doc_1786945945042_f3cplp",
+    "createdAt": "2026-08-17T05:52:25.042Z",
+    "updatedAt": "2026-08-17T05:52:25.042Z",
+    "name": "AWS Cloud Infrastructure",
+    "category": "Cloud",
+    "icon": "Cloud",
+    "proficiency": 94,
+    "status": "active",
+    "order": 12
+  },
+  {
+    "_id": "doc_1786945945043_o5vc93",
+    "createdAt": "2026-08-17T05:52:25.043Z",
+    "updatedAt": "2026-08-17T05:52:25.043Z",
+    "name": "Docker & Containers",
+    "category": "DevOps",
+    "icon": "Box",
+    "proficiency": 96,
+    "status": "active",
+    "order": 13
+  },
+  {
+    "_id": "doc_1786945945044_rcwu2p",
+    "createdAt": "2026-08-17T05:52:25.044Z",
+    "updatedAt": "2026-08-17T05:52:25.044Z",
+    "name": "Kubernetes Orchestration",
+    "category": "DevOps",
+    "icon": "Network",
+    "proficiency": 89,
+    "status": "active",
+    "order": 14
+  },
+  {
+    "_id": "doc_1786945945045_2du0yl",
+    "createdAt": "2026-08-17T05:52:25.045Z",
+    "updatedAt": "2026-08-17T05:52:25.045Z",
+    "name": "CI/CD Pipelines",
+    "category": "DevOps",
+    "icon": "GitBranch",
+    "proficiency": 95,
+    "status": "active",
+    "order": 15
+  },
+  {
+    "_id": "doc_1786945945046_6lmkcc",
+    "createdAt": "2026-08-17T05:52:25.046Z",
+    "updatedAt": "2026-08-17T05:52:25.046Z",
+    "name": "AI / Machine Learning",
+    "category": "AI/ML",
+    "icon": "Cpu",
+    "proficiency": 90,
+    "status": "active",
+    "order": 16
+  }
+]

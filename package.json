@@ -1,0 +1,19 @@
+{
+  "name": "savrion-workspace",
+  "version": "1.0.0",
+  "description": "Savrion Software Solutions Website & Admin Panel",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,WEBSITE,ADMIN\" -c \"blue,cyan,green\" \"npm run dev --prefix admin-panel/backend\" \"npm run dev --prefix savrion-website\" \"npm run dev --prefix admin-panel/frontend\"",
+    "dev:website": "npm run dev --prefix savrion-website",
+    "dev:admin-frontend": "npm run dev --prefix admin-panel/frontend",
+    "dev:backend": "npm run dev --prefix admin-panel/backend",
+    "seed": "node admin-panel/backend/scripts/seed.js",
+    "install:all": "npm install && npm install --prefix savrion-website && npm install --prefix admin-panel/frontend && npm install --prefix admin-panel/backend",
+    "build:website": "npm run build --prefix savrion-website",
+    "build:admin": "npm run build --prefix admin-panel/frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

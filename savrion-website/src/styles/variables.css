@@ -1,0 +1,82 @@
+:root {
+  /* ==========================================================
+     SAVRION BRAND THEME & CENTRALIZED COLOR SYSTEM
+     One central place to update the entire website color palette.
+     ========================================================== */
+  
+  /* Primary Brand Cyan */
+  --color-primary: #00AEA9;
+  --color-primary-light: #33C4C0;
+  --color-primary-dark: #008F8B;
+  --color-primary-hover: #00C7C1;
+  --color-primary-glow: rgba(0, 174, 169, 0.35);
+  --color-primary-glow-subtle: rgba(0, 174, 169, 0.12);
+  --color-primary-rgb: 0, 174, 169;
+
+  /* Light Theme Core Backgrounds */
+  --color-black: #FFFFFF;
+  --color-dark: #F9FAFB;
+  --color-background: #FFFFFF;
+  --color-background-secondary: #F3F4F6;
+  --color-surface: #F1F5F9;
+  --color-card: #FFFFFF;
+  --color-card-hover: #F8FAFC;
+  --color-glass: rgba(255, 255, 255, 0.85);
+
+  /* Typography Colors */
+  --color-white: #111827;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #FFFFFF;
+
+  /* Borders & Dividers */
+  --color-border: rgba(0, 174, 169, 0.18);
+  --color-border-hover: rgba(0, 174, 169, 0.45);
+  --color-border-light: rgba(0, 0, 0, 0.08);
+
+  /* Functional Status Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #00AEA9;
+
+  /* Typography Fonts */
+  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Spacing Tokens */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 5rem;     /* 80px */
+  --space-4xl: 7.5rem;   /* 120px */
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.8);
+  --glow-primary-sm: 0 0 15px rgba(0, 174, 169, 0.3);
+  --glow-primary-md: 0 0 30px rgba(0, 174, 169, 0.4);
+  --glow-primary-lg: 0 0 50px rgba(0, 174, 169, 0.25);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-max-width: 1280px;
+  --nav-height: 80px;
+}

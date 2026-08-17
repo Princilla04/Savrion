@@ -1,0 +1,71 @@
+[
+  {
+    "_id": "doc_1786945945049_0bklc2",
+    "createdAt": "2026-08-17T05:52:25.049Z",
+    "updatedAt": "2026-08-17T05:52:25.049Z",
+    "key": "global_content",
+    "hero": {
+      "badge": "Next-Generation Software Engineering",
+      "title": "Architecting Intelligent Software Solutions for Global Enterprises",
+      "subtitle": "Savrion empowers market leaders with high-performance web applications, scalable cloud infrastructure, custom software engineering, and intelligent digital systems.",
+      "primaryCtaText": "Get In Touch",
+      "primaryCtaLink": "/contact",
+      "secondaryCtaText": "Explore Services",
+      "secondaryCtaLink": "/services"
+    },
+    "about": {
+      "title": "Engineering the Future of Digital Innovation",
+      "description": "Savrion is a premier software solutions and technology services firm dedicated to transforming ambitious ideas into secure, scalable, and high-impact digital products.",
+      "mission": "To empower organizations worldwide with state-of-the-art software systems, cloud technologies, and exceptional engineering expertise.",
+      "vision": "To be the most trusted technology innovation partner for businesses navigating the digital era.",
+      "coreValues": [
+        {
+          "title": "Engineering Excellence",
+          "description": "Upholding uncompromising standards of code quality, scalability, and security."
+        },
+        {
+          "title": "Client-Centric Agility",
+          "description": "Delivering tailored software solutions aligned strictly with enterprise goals."
+        },
+        {
+          "title": "Continuous Innovation",
+          "description": "Adopting bleeding-edge frameworks, AI integrations, and cloud architectures."
+        }
+      ]
+    },
+    "company": {
+      "name": "Savrion",
+      "tagline": "Empowering Businesses Through Advanced Software Solutions",
+      "email": "contact@savrion.com",
+      "phone": "+1 (800) 555-0199",
+      "address": "100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City",
+      "socials": {
+        "github": "https://github.com",
+        "linkedin": "https://linkedin.com",
+        "twitter": "https://twitter.com"
+      }
+    },
+    "stats": [
+      {
+        "label": "Projects Delivered",
+        "value": "150+",
+        "description": "Across 18+ industries worldwide"
+      },
+      {
+        "label": "Client Satisfaction",
+        "value": "99.4%",
+        "description": "Net promoter score rating"
+      },
+      {
+        "label": "Expert Engineers",
+        "value": "45+",
+        "description": "Specialized architects and developers"
+      },
+      {
+        "label": "System Uptime SLA",
+        "value": "99.99%",
+        "description": "Enterprise reliability guarantee"
+      }
+    ]
+  }
+]

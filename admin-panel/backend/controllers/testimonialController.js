@@ -2,6 +2,22 @@ const Testimonial = require('../models/Testimonial');
 const datastore = require('../services/datastore');
 const { getIsFallbackMode } = require('../config/db');
 
+const normaliseTestimonialPayload = (payload) => {
+  const rating = Number(payload.rating);
+  const order = Number(payload.order);
+
+  return {
+    clientName: payload.clientName?.trim(),
+    company: payload.company?.trim(),
+    role: payload.role?.trim() || 'Executive',
+    content: payload.content?.trim(),
+    rating: Number.isInteger(rating) && rating >= 1 && rating <= 5 ? rating : 5,
+    avatar: payload.avatar || '',
+    status: ['active', 'inactive'].includes(payload.status) ? payload.status : 'active',
+    order: Number.isFinite(order) && order >= 0 ? order : 0
+  };
+};
+
 // @desc    Get all testimonials
 // @route   GET /api/testimonials
 // @access  Public / Admin
@@ -35,25 +51,14 @@ const getTestimonials = async (req, res, next) => {
 // @access  Private (Admin)
 const createTestimonial = async (req, res, next) => {
   try {
-    const { clientName, company, role, content, rating, avatar, status, order } = req.body;
+    const itemData = normaliseTestimonialPayload(req.body);
 
-    if (!clientName || !company || !content) {
+    if (!itemData.clientName || !itemData.company || !itemData.content) {
       return res.status(400).json({
         success: false,
         message: 'Client name, company, and testimonial content are required.'
       });
     }
-
-    const itemData = {
-      clientName,
-      company,
-      role: role || 'Executive',
-      content,
-      rating: rating ? Number(rating) : 5,
-      avatar: avatar || '',
-      status: status || 'active',
-      order: order ? Number(order) : 0
-    };
 
     let newItem = null;
     if (getIsFallbackMode()) {
@@ -78,12 +83,20 @@ const createTestimonial = async (req, res, next) => {
 const updateTestimonial = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const itemData = normaliseTestimonialPayload(req.body);
+
+    if (!itemData.clientName || !itemData.company || !itemData.content) {
+      return res.status(400).json({
+        success: false,
+        message: 'Client name, company, and testimonial content are required.'
+      });
+    }
     let updated = null;
 
     if (getIsFallbackMode()) {
-      updated = await datastore.findByIdAndUpdate('testimonials', id, req.body);
+      updated = await datastore.findByIdAndUpdate('testimonials', id, itemData);
     } else {
-      updated = await Testimonial.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+      updated = await Testimonial.findByIdAndUpdate(id, itemData, { new: true, runValidators: true });
     }
 
     if (!updated) {

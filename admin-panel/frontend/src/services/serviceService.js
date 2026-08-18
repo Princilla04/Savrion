@@ -2,7 +2,9 @@ import { request } from './api';
 
 export const serviceService = {
   getAll: async (params = {}) => {
-    const query = new URLSearchParams(params).toString();
+    const query = new URLSearchParams(
+      Object.entries(params).filter(([, value]) => value !== undefined && value !== null && value !== '')
+    ).toString();
     const res = await request(`/services${query ? `?${query}` : ''}`);
     return res.data || [];
   },

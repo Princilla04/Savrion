@@ -1,6 +1,5 @@
 const Service = require('../models/Service');
 const Project = require('../models/Project');
-const Technology = require('../models/Technology');
 const Testimonial = require('../models/Testimonial');
 const Contact = require('../models/Contact');
 const datastore = require('../services/datastore');
@@ -14,7 +13,6 @@ const getDashboardStats = async (req, res, next) => {
     let stats = {
       servicesCount: 0,
       projectsCount: 0,
-      technologiesCount: 0,
       testimonialsCount: 0,
       contactsTotal: 0,
       contactsUnread: 0,
@@ -25,7 +23,6 @@ const getDashboardStats = async (req, res, next) => {
     if (getIsFallbackMode()) {
       stats.servicesCount = await datastore.count('services');
       stats.projectsCount = await datastore.count('projects');
-      stats.technologiesCount = await datastore.count('technologies');
       stats.testimonialsCount = await datastore.count('testimonials');
       
       const allContacts = await datastore.find('contacts');
@@ -42,7 +39,6 @@ const getDashboardStats = async (req, res, next) => {
       const [
         servicesCount,
         projectsCount,
-        technologiesCount,
         testimonialsCount,
         contactsTotal,
         contactsUnread,
@@ -51,7 +47,6 @@ const getDashboardStats = async (req, res, next) => {
       ] = await Promise.all([
         Service.countDocuments(),
         Project.countDocuments(),
-        Technology.countDocuments(),
         Testimonial.countDocuments(),
         Contact.countDocuments(),
         Contact.countDocuments({ status: 'unread' }),
@@ -62,7 +57,6 @@ const getDashboardStats = async (req, res, next) => {
       stats = {
         servicesCount,
         projectsCount,
-        technologiesCount,
         testimonialsCount,
         contactsTotal,
         contactsUnread,

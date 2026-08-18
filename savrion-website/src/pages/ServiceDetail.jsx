@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { contentService } from '../services/contentService';
 import CTASection from '../components/CTASection';
+import { trackEvent } from '../services/analytics';
 
 const ServiceDetail = () => {
   const { slug } = useParams();
@@ -30,6 +31,7 @@ const ServiceDetail = () => {
           contentService.getServices({ status: 'active' })
         ]);
         if (singleService) setService(singleService);
+        if (singleService) trackEvent('view_service', { service_slug: slug });
         if (all) setAllServices(all);
       } catch (err) {
         console.warn('Error loading service:', err);
@@ -112,8 +114,8 @@ const ServiceDetail = () => {
                 <span>Request a Proposal for this Service</span>
                 <ArrowRight size={18} />
               </Link>
-              <Link to="/projects" className="btn btn-secondary btn-lg">
-                <span>View Related Case Studies</span>
+              <Link to="/products" className="btn btn-secondary btn-lg">
+                <span>View Our Products</span>
               </Link>
             </div>
           </div>

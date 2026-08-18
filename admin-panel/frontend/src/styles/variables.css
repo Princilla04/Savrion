@@ -69,3 +69,27 @@
   --sidebar-collapsed-width: 72px;
   --topbar-height: 70px;
 }
+
+:root[data-theme='light'] {
+  --color-black: #0b1f20;
+  --color-dark: #f6fbfb;
+  --color-background: #f7fbfb;
+  --color-sidebar: #ffffff;
+  --color-topbar: #ffffff;
+  --color-card: #ffffff;
+  --color-card-hover: #f1fafa;
+  --color-surface: #f2f8f8;
+  --color-surface-hover: #e6f2f2;
+
+  --color-white: #142a2d;
+  --color-text-primary: #142a2d;
+  --color-text-secondary: #537074;
+  --color-text-muted: #738b8f;
+  --color-text-inverse: #ffffff;
+
+  --color-border: rgba(0, 143, 139, 0.2);
+  --color-border-hover: rgba(0, 143, 139, 0.48);
+  --color-border-light: rgba(20, 42, 45, 0.1);
+  --color-primary-glow: rgba(0, 174, 169, 0.2);
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+}

@@ -26,6 +26,14 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  logo: {
+    type: String,
+    default: ''
+  },
+  sampleVideo: {
+    type: String,
+    default: ''
+  },
   images: [{
     type: String
   }],
@@ -52,6 +60,14 @@ const ProjectSchema = new mongoose.Schema({
     type: String
   }],
   liveUrl: {
+    type: String,
+    default: ''
+  },
+  websiteUrl: {
+    type: String,
+    default: ''
+  },
+  playStoreUrl: {
     type: String,
     default: ''
   },

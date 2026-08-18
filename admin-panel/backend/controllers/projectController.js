@@ -104,8 +104,8 @@ const getProject = async (req, res, next) => {
 const createProject = async (req, res, next) => {
   try {
     const { 
-      title, client, category, bannerImage, images, shortDescription, 
-      problem, solution, results, features, technologies, liveUrl, featured, status, order 
+      title, client, category, bannerImage, logo, sampleVideo, images, shortDescription,
+      problem, solution, results, features, technologies, liveUrl, websiteUrl, playStoreUrl, featured, status, order
     } = req.body;
 
     if (!title || !category || !shortDescription) {
@@ -123,6 +123,8 @@ const createProject = async (req, res, next) => {
       client: client || 'Global Enterprise Client',
       category,
       bannerImage: bannerImage || '',
+      logo: logo || '',
+      sampleVideo: sampleVideo || '',
       images: Array.isArray(images) ? images : (images ? images.split(',').map(s => s.trim()) : []),
       shortDescription,
       problem: problem || '',
@@ -131,6 +133,8 @@ const createProject = async (req, res, next) => {
       features: Array.isArray(features) ? features : (features ? features.split('\n').filter(Boolean).map(s => s.trim()) : []),
       technologies: Array.isArray(technologies) ? technologies : (technologies ? technologies.split(',').map(s => s.trim()) : []),
       liveUrl: liveUrl || '',
+      websiteUrl: websiteUrl || '',
+      playStoreUrl: playStoreUrl || '',
       featured: featured === true || featured === 'true',
       status: status || 'active',
       order: order ? Number(order) : 0
@@ -158,7 +162,7 @@ const createProject = async (req, res, next) => {
 // @access  Private (Admin)
 const updateProject = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { identifier: id } = req.params;
     const updateData = { ...req.body };
 
     if (updateData.title && !updateData.slug) {
@@ -206,7 +210,7 @@ const updateProject = async (req, res, next) => {
 // @access  Private (Admin)
 const deleteProject = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { identifier: id } = req.params;
     let deleted = null;
 
     if (getIsFallbackMode()) {

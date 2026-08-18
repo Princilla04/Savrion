@@ -11,7 +11,8 @@
     "seed": "node admin-panel/backend/scripts/seed.js",
     "install:all": "npm install && npm install --prefix savrion-website && npm install --prefix admin-panel/frontend && npm install --prefix admin-panel/backend",
     "build:website": "npm run build --prefix savrion-website",
-    "build:admin": "npm run build --prefix admin-panel/frontend"
+    "build:admin": "npm run build --prefix admin-panel/frontend",
+    "preflight": "powershell -ExecutionPolicy Bypass -File scripts/preflight.ps1"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

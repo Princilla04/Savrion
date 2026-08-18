@@ -1,50 +1,15 @@
 [
   {
-    "_id": "doc_1786945945046_9g1w5u",
-    "createdAt": "2026-08-17T05:52:25.046Z",
-    "updatedAt": "2026-08-17T05:52:25.046Z",
-    "clientName": "David Sterling",
-    "company": "Apex Financial Holdings",
-    "role": "Chief Technology Officer",
-    "content": "Savrion transformed our legacy trading interface into a lightning-fast enterprise workstation. Their deep technical expertise in real-time systems and clean code architecture saved us months of development time.",
+    "_id": "doc_1786971789329_48su2a",
+    "createdAt": "2026-08-17T13:03:09.329Z",
+    "updatedAt": "2026-08-17T13:24:33.032Z",
+    "clientName": "Screwy",
+    "company": "Static Engineers",
+    "role": "Director",
+    "content": "The app has good potential and the team has made good progress. However, UI consistency, performance, navigation, and overall user experience can be improved. More thorough testing across devices, faster bug resolution, better error handling, and regular development updates would help deliver a more stable, professional, and user-friendly application.",
     "rating": 5,
+    "avatar": "",
     "status": "active",
     "order": 1
-  },
-  {
-    "_id": "doc_1786945945047_u3ujmz",
-    "createdAt": "2026-08-17T05:52:25.047Z",
-    "updatedAt": "2026-08-17T05:52:25.047Z",
-    "clientName": "Dr. Elena Rostova",
-    "company": "MediPulse Health Network",
-    "role": "VP of Product Engineering",
-    "content": "The telehealth platform Savrion built surpassed every compliance and performance benchmark. They delivered on schedule, with flawless documentation and responsive communication throughout the entire engagement.",
-    "rating": 5,
-    "status": "active",
-    "order": 2
-  },
-  {
-    "_id": "doc_1786945945048_vohed8",
-    "createdAt": "2026-08-17T05:52:25.048Z",
-    "updatedAt": "2026-08-17T05:52:25.048Z",
-    "clientName": "Marcus Vance",
-    "company": "Omnitrax Freight Global",
-    "role": "Head of Digital Operations",
-    "content": "Savrion's custom software solutions revolutionized how we track and optimize global maritime freight. Their engineers understand complex enterprise workflows and build systems that truly scale.",
-    "rating": 5,
-    "status": "active",
-    "order": 3
-  },
-  {
-    "_id": "doc_1786945945049_z0t2x4",
-    "createdAt": "2026-08-17T05:52:25.049Z",
-    "updatedAt": "2026-08-17T05:52:25.049Z",
-    "clientName": "Sophia Patel",
-    "company": "NovaStream Media",
-    "role": "Director of Software Systems",
-    "content": "Exceptional frontend execution and rock-solid REST APIs. The centralized design system and attention to detail from the Savrion engineering team set a new high standard for our digital products.",
-    "rating": 5,
-    "status": "active",
-    "order": 4
   }
 ]

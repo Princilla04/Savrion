@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { contentService } from '../services/contentService';
 import CTASection from '../components/CTASection';
+import { trackEvent } from '../services/analytics';
 
 const ProjectDetail = () => {
   const { slug } = useParams();
@@ -31,6 +32,7 @@ const ProjectDetail = () => {
           contentService.getProjects({ status: 'active' })
         ]);
         if (singleProject) setProject(singleProject);
+        if (singleProject) trackEvent('view_product', { product_slug: slug });
         if (all) setAllProjects(all);
       } catch (err) {
         console.warn('Error loading project:', err);
@@ -46,7 +48,7 @@ const ProjectDetail = () => {
       <div className="container section-py" style={{ textAlign: 'center', minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ color: 'var(--color-primary-light)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Sparkles size={24} className="animate-spin-slow" />
-          <span>Loading Case Study Blueprint...</span>
+          <span>Loading product...</span>
         </div>
       </div>
     );
@@ -55,13 +57,13 @@ const ProjectDetail = () => {
   if (!project) {
     return (
       <div className="container section-py" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <h2 style={{ marginBottom: '16px', color: 'var(--color-white)' }}>Project Not Found</h2>
+        <h2 style={{ marginBottom: '16px', color: 'var(--color-white)' }}>Product Not Found</h2>
         <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)' }}>
-          The requested case study does not exist or may have been updated.
+          The requested product does not exist or may have been updated.
         </p>
-        <Link to="/projects" className="btn btn-primary">
+        <Link to="/products" className="btn btn-primary">
           <ArrowLeft size={18} />
-          <span>Back to Case Studies</span>
+          <span>Back to Products</span>
         </Link>
       </div>
     );
@@ -88,7 +90,7 @@ const ProjectDetail = () => {
           <div className="breadcrumbs">
             <Link to="/">Home</Link>
             <span>/</span>
-            <Link to="/projects">Projects</Link>
+            <Link to="/products">Products</Link>
             <span>/</span>
             <span className="active">{project.title}</span>
           </div>
@@ -112,6 +114,9 @@ const ProjectDetail = () => {
               </span>
             </div>
 
+            {project.logo && (
+              <img src={project.logo} alt={`${project.title} logo`} style={{ width: '72px', height: '72px', objectFit: 'contain', background: '#fff', borderRadius: '14px', padding: '8px', marginBottom: '16px' }} />
+            )}
             <h1 style={{ marginBottom: '20px' }}>
               {project.title}
             </h1>
@@ -120,21 +125,37 @@ const ProjectDetail = () => {
               {project.shortDescription}
             </p>
 
-            {project.liveUrl && (
-              <a 
-                href={project.liveUrl} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="btn btn-primary"
-                id="view-live-project-btn"
-              >
-                <span>Visit Live Application</span>
-                <ExternalLink size={16} />
-              </a>
+            {(project.websiteUrl || project.liveUrl || project.playStoreUrl) && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                {(project.websiteUrl || project.liveUrl) && (
+                  <a href={project.websiteUrl || project.liveUrl} target="_blank" rel="noreferrer" className="btn btn-primary" id="visit-product-website-btn">
+                    <span>Visit Website</span>
+                    <ExternalLink size={16} />
+                  </a>
+                )}
+                {project.playStoreUrl && (
+                  <a href={project.playStoreUrl} target="_blank" rel="noreferrer" className="btn btn-secondary">
+                    <span>Get it on Google Play</span>
+                    <ExternalLink size={16} />
+                  </a>
+                )}
+              </div>
             )}
           </div>
         </div>
       </section>
+
+      {project.sampleVideo && (
+        <section style={{ paddingBottom: 'var(--space-3xl)' }}>
+          <div className="container">
+            <h2 style={{ fontSize: '1.6rem', marginBottom: 'var(--space-lg)' }}>Product Walkthrough</h2>
+            <video controls preload="metadata" style={{ width: '100%', maxHeight: '620px', borderRadius: 'var(--radius-xl)', background: '#000', border: '1px solid var(--color-border)' }}>
+              <source src={project.sampleVideo} />
+              Your browser does not support video playback.
+            </video>
+          </div>
+        </section>
+      )}
 
       {/* ==========================================================
           BANNER IMAGE SHOWCASE

@@ -1,16 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Code2, 
   Mail, 
   Phone, 
-  MapPin, 
-  ArrowUpRight, 
-  Shield, 
-  Terminal,
-  ExternalLink,
-  Globe
+  MapPin
 } from 'lucide-react';
+import savrionLogo from '../assets/savrion-word.svg';
 
 const GithubIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,37 +28,35 @@ const TwitterIcon = ({ size = 18 }) => (
   </svg>
 );
 
-const Footer = ({ content }) => {
+const Footer = ({ content, services = [] }) => {
   const company = content?.company || {
     name: 'Savrion',
     tagline: 'Empowering Businesses Through Advanced Software Solutions',
     email: 'contact@savrion.com',
     phone: '+1 (800) 555-0199',
     address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City',
-    socials: {
-      github: 'https://github.com',
-      linkedin: 'https://linkedin.com',
-      twitter: 'https://twitter.com'
-    }
+    socials: {}
   };
+
+  const socialLinks = [
+    { name: 'GitHub', url: company.socials?.github, Icon: GithubIcon },
+    { name: 'LinkedIn', url: company.socials?.linkedin, Icon: LinkedinIcon },
+    { name: 'X / Twitter', url: company.socials?.twitter, Icon: TwitterIcon }
+  ].filter(({ url }) => /^https?:\/\//i.test(url?.trim() || ''));
 
   const quickLinks = [
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services Catalog', path: '/services' },
-    { name: 'Technologies Matrix', path: '/technologies' },
-    { name: 'Case Studies', path: '/projects' },
+    { name: 'Products', path: '/products' },
     { name: 'Contact & Inquiries', path: '/contact' }
   ];
 
-  const serviceLinks = [
-    { name: 'Web Application Development', path: '/services/web-development' },
-    { name: 'Mobile App Development', path: '/services/mobile-development' },
-    { name: 'Custom Software Solutions', path: '/services/custom-software' },
-    { name: 'UI/UX Design & Prototyping', path: '/services/ui-ux-design' },
-    { name: 'Cloud & DevOps Architecture', path: '/services/cloud-solutions' },
-    { name: 'IT Consulting & Audits', path: '/services/it-consulting' }
-  ];
+  const serviceLinks = services
+    .filter((service) => service.status === 'active')
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .slice(0, 6)
+    .map((service) => ({ name: service.title, path: `/services/${service.slug}` }));
 
   return (
     <footer 
@@ -88,113 +81,21 @@ const Footer = ({ content }) => {
         >
           {/* Brand Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-              <div 
-                style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--color-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--color-black)',
-                  boxShadow: '0 0 14px var(--color-primary-glow)'
-                }}
-              >
-                <Code2 size={22} strokeWidth={2.5} />
-              </div>
-              <span 
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '1.35rem',
-                  fontWeight: '800',
-                  color: 'var(--color-white)',
-                  letterSpacing: '-0.02em'
-                }}
-              >
-                SAVRION<span style={{ color: 'var(--color-primary)' }}>.</span>
-              </span>
+            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+              <img src={savrionLogo} alt="Savrion Technologies" style={{ width: '190px', height: 'auto', display: 'block' }} />
             </Link>
 
             <p style={{ fontSize: '0.925rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
               {company.tagline || 'Savrion delivers high-impact software solutions, cloud architectures, and digital systems engineered for modern global businesses.'}
             </p>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
-              {company.socials?.github && (
-                <a 
-                  href={company.socials.github} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  aria-label="Savrion GitHub"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--color-card)',
-                    border: '1px solid var(--color-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-text-secondary)',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseOver={(e) => { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.borderColor = 'var(--color-primary)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
-                >
-                  <GithubIcon size={18} />
-                </a>
-              )}
-              {company.socials?.linkedin && (
-                <a 
-                  href={company.socials.linkedin} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  aria-label="Savrion LinkedIn"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--color-card)',
-                    border: '1px solid var(--color-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-text-secondary)',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseOver={(e) => { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.borderColor = 'var(--color-primary)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
-                >
-                  <LinkedinIcon size={18} />
-                </a>
-              )}
-              {company.socials?.twitter && (
-                <a 
-                  href={company.socials.twitter} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  aria-label="Savrion Twitter"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--color-card)',
-                    border: '1px solid var(--color-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-text-secondary)',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseOver={(e) => { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.borderColor = 'var(--color-primary)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
-                >
-                  <TwitterIcon size={18} />
-                </a>
-              )}
-            </div>
+            {socialLinks.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
+                {socialLinks.map(({ name, url, Icon }) => (
+                  <a key={name} href={url.trim()} target="_blank" rel="noreferrer" aria-label={`Savrion ${name}`} style={{ width: '36px', height: '36px', borderRadius: 'var(--radius-sm)', background: 'var(--color-card)', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-secondary)', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.borderColor = 'var(--color-primary)'; }} onMouseOut={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}><Icon size={18} /></a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Quick Navigation */}
@@ -225,8 +126,8 @@ const Footer = ({ content }) => {
             </ul>
           </div>
 
-          {/* Software Services */}
-          <div>
+          {/* Software Services - managed in the admin panel */}
+          {serviceLinks.length > 0 && <div>
             <h4 style={{ color: 'var(--color-white)', fontSize: '1rem', marginBottom: 'var(--space-md)', fontWeight: 600 }}>
               Engineering Solutions
             </h4>
@@ -251,7 +152,7 @@ const Footer = ({ content }) => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div>}
 
           {/* Direct Contact Info */}
           <div>
@@ -291,21 +192,6 @@ const Footer = ({ content }) => {
         >
           <div>
             &copy; {new Date().getFullYear()} Savrion Software Solutions. All rights reserved.
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
-            <span>Security First Architecture</span>
-            <span>•</span>
-            <span>ISO & SOC2 Aligned</span>
-            <span>•</span>
-            <a 
-              href="http://localhost:5174" 
-              target="_blank" 
-              rel="noreferrer"
-              style={{ color: 'var(--color-primary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-            >
-              <span>Admin Portal</span>
-              <ArrowUpRight size={14} />
-            </a>
           </div>
         </div>
       </div>

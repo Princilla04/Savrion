@@ -4,8 +4,7 @@ import { Award, Users, CheckCircle, ShieldCheck } from 'lucide-react';
 const defaultStats = [
   { label: 'Enterprise Projects Delivered', value: '150+', description: 'Across 18+ industries worldwide' },
   { label: 'Client Satisfaction Rating', value: '99.4%', description: 'Net promoter score rating' },
-  { label: 'Expert Software Engineers', value: '45+', description: 'Specialized architects and developers' },
-  { label: 'System SLA Uptime', value: '99.99%', description: 'Enterprise reliability guarantee' }
+  { label: 'Expert Software Engineers', value: '45+', description: 'Specialized architects and developers' }
 ];
 
 const StatsBar = ({ stats = defaultStats }) => {

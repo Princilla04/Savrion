@@ -7,9 +7,11 @@ import {
   Building, 
   Target, 
   BarChart3, 
-  Loader2 
+  Loader2,
+  Upload
 } from 'lucide-react';
 import { contentService } from '../services/contentService';
+import { uploadService } from '../services/uploadService';
 
 const ManageContent = () => {
   const [activeTab, setActiveTab] = useState('hero');
@@ -18,6 +20,23 @@ const ManageContent = () => {
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [uploadingContactImage, setUploadingContactImage] = useState(false);
+
+  const updateContact = (updates) => setContent((current) => ({ ...current, contact: { ...(current.contact || {}), ...updates } }));
+
+  const handleContactImageUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUploadingContactImage(true);
+    try {
+      const response = await uploadService.uploadMedia(file);
+      updateContact({ heroImage: uploadService.resolveMediaUrl(response.url) });
+    } catch (err) {
+      setErrorMessage(err.message || 'Contact banner upload failed.');
+    } finally {
+      setUploadingContactImage(false);
+    }
+  };
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -108,7 +127,8 @@ const ManageContent = () => {
             { id: 'hero', name: 'Homepage Hero', icon: Sparkles },
             { id: 'about', name: 'About & Mission', icon: Target },
             { id: 'company', name: 'Company & Contact Info', icon: Building },
-            { id: 'stats', name: 'Live Statistics', icon: BarChart3 }
+            { id: 'stats', name: 'Live Statistics', icon: BarChart3 },
+            { id: 'contact', name: 'Contact Page', icon: Globe }
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -221,6 +241,7 @@ const ManageContent = () => {
                 />
               </div>
             </div>
+
           </div>
         )}
 
@@ -365,6 +386,17 @@ const ManageContent = () => {
                 />
               </div>
             </div>
+
+            <div className="form-group">
+              <label className="form-label">X / Twitter URL</label>
+              <input 
+                type="url"
+                value={content?.company?.socials?.twitter || ''}
+                onChange={(e) => setContent({ ...content, company: { ...content.company, socials: { ...content.company.socials, twitter: e.target.value } } })}
+                placeholder="https://x.com/your-profile"
+                className="form-input"
+              />
+            </div>
           </div>
         )}
 
@@ -424,6 +456,75 @@ const ManageContent = () => {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === 'contact' && (
+          <div className="admin-card" style={{ padding: 'var(--space-xl)' }}>
+            <h3 style={{ fontSize: '1.2rem', color: 'var(--color-white)', marginBottom: 'var(--space-lg)' }}>Contact Page Content</h3>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Hero Badge</label>
+                <input type="text" value={content?.contact?.badge || ''} onChange={(e) => updateContact({ badge: e.target.value })} className="form-input" placeholder="Let's Build Together" />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Business Hours</label>
+                <input type="text" value={content?.contact?.businessHours || ''} onChange={(e) => updateContact({ businessHours: e.target.value })} className="form-input" placeholder="Mon – Fri: 9 AM – 6 PM" />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Contact Page Heading</label>
+              <input type="text" value={content?.contact?.title || ''} onChange={(e) => updateContact({ title: e.target.value })} className="form-input" placeholder="Contact Savrion Engineering" />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Hero Description</label>
+              <textarea value={content?.contact?.subtitle || ''} onChange={(e) => updateContact({ subtitle: e.target.value })} className="form-textarea" />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Contact Hero Banner (URL or Upload Image)</label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input type="text" value={content?.contact?.heroImage || ''} onChange={(e) => updateContact({ heroImage: e.target.value })} className="form-input" placeholder="https://... or /uploads/..." style={{ flex: 1 }} />
+                <label className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', margin: 0 }}>
+                  <Upload size={15} /> <span>{uploadingContactImage ? 'Uploading...' : 'Upload Banner'}</span>
+                  <input type="file" accept="image/*" onChange={handleContactImageUpload} style={{ display: 'none' }} />
+                </label>
+              </div>
+              {content?.contact?.heroImage && <img src={content.contact.heroImage} alt="Contact banner preview" style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: 'var(--radius-md)', marginTop: '10px' }} />}
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Direct Contact Heading</label>
+                <input type="text" value={content?.contact?.directTitle || ''} onChange={(e) => updateContact({ directTitle: e.target.value })} className="form-input" />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Direct Contact Description</label>
+                <input type="text" value={content?.contact?.directSubtitle || ''} onChange={(e) => updateContact({ directSubtitle: e.target.value })} className="form-input" />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Form Heading</label>
+                <input type="text" value={content?.contact?.formTitle || ''} onChange={(e) => updateContact({ formTitle: e.target.value })} className="form-input" />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Form Description</label>
+                <input type="text" value={content?.contact?.formSubtitle || ''} onChange={(e) => updateContact({ formSubtitle: e.target.value })} className="form-input" />
+              </div>
+            </div>
+
+            <h4 style={{ color: 'var(--color-white)', fontSize: '1rem', margin: 'var(--space-lg) 0 var(--space-md)' }}>Frequently Asked Questions</h4>
+            {(content?.contact?.faqs || []).map((faq, index) => (
+              <div key={index} className="card" style={{ padding: 'var(--space-md)', background: 'var(--color-surface)', marginBottom: 'var(--space-md)' }}>
+                <div className="form-group"><label className="form-label">Question</label><input type="text" value={faq.question || ''} onChange={(e) => { const faqs = [...content.contact.faqs]; faqs[index] = { ...faqs[index], question: e.target.value }; updateContact({ faqs }); }} className="form-input" /></div>
+                <div className="form-group" style={{ marginBottom: '10px' }}><label className="form-label">Answer</label><textarea value={faq.answer || ''} onChange={(e) => { const faqs = [...content.contact.faqs]; faqs[index] = { ...faqs[index], answer: e.target.value }; updateContact({ faqs }); }} className="form-textarea" /></div>
+                <button type="button" onClick={() => updateContact({ faqs: content.contact.faqs.filter((_, faqIndex) => faqIndex !== index) })} className="btn btn-danger-outline btn-sm">Remove Question</button>
+              </div>
+            ))}
+            <button type="button" onClick={() => updateContact({ faqs: [...(content?.contact?.faqs || []), { question: '', answer: '' }] })} className="btn btn-secondary btn-sm">Add Question</button>
           </div>
         )}
 

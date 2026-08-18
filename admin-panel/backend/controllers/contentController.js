@@ -46,16 +46,15 @@ const getContent = async (req, res, next) => {
           phone: '+1 (800) 555-0199',
           address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City',
           socials: {
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
-            twitter: 'https://twitter.com'
+            github: '',
+            linkedin: '',
+            twitter: ''
           }
         },
         stats: [
           { label: 'Projects Delivered', value: '150+', description: 'Across 18+ industries worldwide' },
           { label: 'Client Satisfaction', value: '99.4%', description: 'Net promoter score rating' },
-          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' },
-          { label: 'System Uptime SLA', value: '99.99%', description: 'Enterprise reliability guarantee' }
+          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' }
         ]
       };
     }

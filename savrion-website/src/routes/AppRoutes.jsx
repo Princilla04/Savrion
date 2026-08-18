@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import About from '../pages/About';
@@ -20,8 +20,10 @@ const AppRoutes = () => {
         <Route path="services" element={<Services />} />
         <Route path="services/:slug" element={<ServiceDetail />} />
         <Route path="technologies" element={<Technologies />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="projects/:slug" element={<ProjectDetail />} />
+        <Route path="products" element={<Projects />} />
+        <Route path="products/:slug" element={<ProjectDetail />} />
+        <Route path="projects" element={<Navigate to="/products" replace />} />
+        <Route path="projects/:slug" element={<Navigate to="/products" replace />} />
         <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Route>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, CheckCircle2, Layers } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const ProjectCard = ({ project }) => {
   const defaultImage = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80";
@@ -26,6 +26,11 @@ const ProjectCard = ({ project }) => {
           background: 'var(--color-surface)'
         }}
       >
+        {project.logo && (
+          <div style={{ position: 'absolute', top: '14px', right: '14px', zIndex: 3, width: '52px', height: '52px', background: 'rgba(255, 255, 255, 0.96)', borderRadius: '12px', padding: '6px', boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)' }}>
+            <img src={project.logo} alt={`${project.title} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
+        )}
         <img 
           src={project.bannerImage || defaultImage} 
           alt={project.title}
@@ -49,19 +54,6 @@ const ProjectCard = ({ project }) => {
           }}
         />
 
-        {/* Category Badge */}
-        <div 
-          style={{
-            position: 'absolute',
-            top: '14px',
-            left: '14px',
-            zIndex: 2
-          }}
-        >
-          <span className="badge badge-cyan" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
-            {project.category}
-          </span>
-        </div>
       </div>
 
       {/* Card Content Body */}
@@ -115,11 +107,11 @@ const ProjectCard = ({ project }) => {
         {/* Card Action Link */}
         <div style={{ paddingTop: 'var(--space-md)', borderTop: '1px solid var(--color-border-light)' }}>
           <Link 
-            to={`/projects/${project.slug}`}
+            to={`/products/${project.slug}`}
             className="btn btn-secondary btn-sm"
             style={{ width: '100%', justifyContent: 'space-between' }}
           >
-            <span>View Case Study</span>
+            <span>View Product</span>
             <ArrowUpRight size={16} color="var(--color-primary)" />
           </Link>
         </div>

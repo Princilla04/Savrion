@@ -120,7 +120,7 @@ const initialServices = [
   }
 ];
 
-const initialProjects = [
+const legacyProjectTemplates = [
   {
     title: "ApexFin: Enterprise FinTech Analytics Platform",
     slug: "apexfin-platform",
@@ -214,6 +214,47 @@ const initialProjects = [
   }
 ];
 
+const initialProjects = [
+  {
+    title: "Workin",
+    slug: "workin",
+    client: "Savrion Product",
+    category: "Attendance Management",
+    bannerImage: "",
+    logo: "",
+    sampleVideo: "",
+    shortDescription: "A modern attendance management application that helps teams record, monitor, and manage daily attendance with ease.",
+    problem: "Organizations need a simple, reliable way to track staff attendance and keep their records organized.",
+    solution: "Workin provides a streamlined attendance workflow for employees and administrators in one focused application.",
+    results: "Attendance records are easier to capture, review, and manage.",
+    features: ["Daily attendance tracking", "Employee attendance records", "Administrative attendance management"],
+    technologies: [],
+    liveUrl: "",
+    featured: false,
+    status: "active",
+    order: 1
+  },
+  {
+    title: "Thadam",
+    slug: "thadam",
+    client: "Savrion Product",
+    category: "Car Rental",
+    bannerImage: "",
+    logo: "",
+    sampleVideo: "",
+    shortDescription: "A car rental application designed to simplify vehicle discovery, bookings, and rental operations.",
+    problem: "Car rental businesses need a clear, dependable way to manage vehicles and customer bookings.",
+    solution: "Thadam brings car rental workflows together in one application, from browsing available vehicles to managing reservations.",
+    results: "A more organized and convenient rental experience for customers and administrators.",
+    features: ["Vehicle catalogue", "Rental bookings", "Reservation management"],
+    technologies: [],
+    liveUrl: "",
+    featured: false,
+    status: "active",
+    order: 2
+  }
+];
+
 const initialTechnologies = [
   { name: "React.js", category: "Frontend", icon: "Layers", proficiency: 98, status: "active", order: 1 },
   { name: "JavaScript / ESNext", category: "Frontend", icon: "Code", proficiency: 99, status: "active", order: 2 },
@@ -276,9 +317,13 @@ const seedDatabase = async () => {
   console.log('[Seeder] Starting Savrion database initialization...');
 
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@savrion.com';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'SavrionAdmin2026!';
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword && process.env.NODE_ENV === 'production') {
+    throw new Error('ADMIN_PASSWORD must be configured before seeding a production database.');
+  }
+  const passwordForSeed = adminPassword || 'development-only-password';
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(adminPassword, salt);
+  const hashedPassword = await bcrypt.hash(passwordForSeed, salt);
 
   if (getIsFallbackMode()) {
     // Fallback JSON persistence
@@ -356,16 +401,15 @@ const seedDatabase = async () => {
           phone: '+1 (800) 555-0199',
           address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City',
           socials: {
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
-            twitter: 'https://twitter.com'
+            github: '',
+            linkedin: '',
+            twitter: ''
           }
         },
         stats: [
           { label: 'Projects Delivered', value: '150+', description: 'Across 18+ industries worldwide' },
           { label: 'Client Satisfaction', value: '99.4%', description: 'Net promoter score rating' },
-          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' },
-          { label: 'System Uptime SLA', value: '99.99%', description: 'Enterprise reliability guarantee' }
+          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' }
         ]
       });
       console.log('[Seeder] Seeded default global website content.');
@@ -400,7 +444,7 @@ const seedDatabase = async () => {
       await Admin.create({
         name: 'Savrion Administrator',
         email: adminEmail,
-        password: adminPassword,
+        password: passwordForSeed,
         role: 'superadmin'
       });
       console.log(`[Seeder] Seeded MongoDB default admin account: ${adminEmail}`);
@@ -461,16 +505,15 @@ const seedDatabase = async () => {
           phone: '+1 (800) 555-0199',
           address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City',
           socials: {
-            github: 'https://github.com',
-            linkedin: 'https://linkedin.com',
-            twitter: 'https://twitter.com'
+            github: '',
+            linkedin: '',
+            twitter: ''
           }
         },
         stats: [
           { label: 'Projects Delivered', value: '150+', description: 'Across 18+ industries worldwide' },
           { label: 'Client Satisfaction', value: '99.4%', description: 'Net promoter score rating' },
-          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' },
-          { label: 'System Uptime SLA', value: '99.99%', description: 'Enterprise reliability guarantee' }
+          { label: 'Expert Engineers', value: '45+', description: 'Specialized architects and developers' }
         ]
       });
       console.log('[Seeder] Seeded MongoDB default website content.');

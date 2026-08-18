@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Code2, Lock, Mail, ArrowRight, AlertCircle, Loader2, KeyRound } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Loader2, KeyRound } from 'lucide-react';
+import savrionLogo from '../../../../savrion-website/src/assets/savrion-word.svg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -72,34 +73,15 @@ const Login = () => {
           padding: 'var(--space-2xl)',
           borderRadius: 'var(--radius-xl)',
           border: '1px solid var(--color-border)',
-          background: 'rgba(11, 18, 20, 0.95)',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(var(--color-primary-rgb), 0.15)',
+          background: 'var(--color-card)',
+          boxShadow: '0 25px 60px rgba(0, 20, 20, 0.22), 0 0 35px rgba(var(--color-primary-rgb), 0.15)',
           position: 'relative',
           zIndex: 2
         }}
       >
         {/* Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
-          <div 
-            style={{
-              width: '52px',
-              height: '52px',
-              borderRadius: 'var(--radius-lg)',
-              background: 'var(--color-primary)',
-              color: 'var(--color-black)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 16px auto',
-              boxShadow: '0 0 20px var(--color-primary-glow)'
-            }}
-          >
-            <Code2 size={30} strokeWidth={2.5} />
-          </div>
-
-          <h1 style={{ fontSize: '1.6rem', color: 'var(--color-white)', marginBottom: '6px' }}>
-            SAVRION<span style={{ color: 'var(--color-primary)' }}>.</span>
-          </h1>
+          <img src={savrionLogo} alt="Savrion Technologies" style={{ width: '210px', height: 'auto', display: 'block', margin: '0 auto 16px' }} />
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>
             Enterprise Content Administration Portal
           </p>

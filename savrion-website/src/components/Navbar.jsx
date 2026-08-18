@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/savrion-word.svg';
 import { 
   Code2, 
   Menu, 
@@ -37,8 +37,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Technologies', path: '/technologies' },
-    { name: 'Projects', path: '/projects' },
+    { name: 'Products', path: '/products' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -49,7 +48,7 @@ const Navbar = () => {
         top: 0,
         zIndex: 100,
         width: '100%',
-        height: '110px',
+        height: '80px',
         display: 'flex',
         alignItems: 'center',
         background: isScrolled ? 'rgba(255, 255, 255, 0.92)' : 'transparent',
@@ -62,7 +61,7 @@ const Navbar = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '0 8% 0 8%' }}>
         {/* Brand Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <img src={logo} alt="Savrion Logo" style={{ height: '90px', width: 'auto', objectFit: 'contain' }} />
+          <img className="site-logo" src={logo} alt="Savrion Technologies" />
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -216,6 +215,11 @@ const Navbar = () => {
       )}
 
       <style>{`
+        .site-logo { width: 180px; height: auto; display: block; transition: opacity 0.2s ease; }
+        .site-logo:hover { opacity: 0.78; }
+        @media (max-width: 480px) {
+          .site-logo { width: 142px; }
+        }
         @media (min-width: 900px) {
           .desktop-nav {
             display: flex !important;

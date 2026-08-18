@@ -26,7 +26,9 @@ const Contact = () => {
     address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City'
   };
 
-  const faqs = [
+  const contact = content?.contact || {};
+
+  const defaultFaqs = [
     {
       q: 'How quickly can Savrion assemble and deploy an engineering team?',
       a: 'Depending on project scope and required tech stack, we typically onboard and begin initial architectural sprints within 1 to 2 weeks.'
@@ -44,6 +46,7 @@ const Contact = () => {
       a: 'All code undergoes mandatory dual peer review, automated static linting, unit/integration testing suites, CI/CD vulnerability scanning, and adheres strictly to OWASP top 10 benchmarks.'
     }
   ];
+  const faqs = contact.faqs?.length ? contact.faqs.map((faq) => ({ q: faq.question, a: faq.answer })) : defaultFaqs;
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -58,7 +61,7 @@ const Contact = () => {
         style={{
           paddingTop: 'var(--space-3xl)',
           paddingBottom: 'var(--space-2xl)',
-          background: 'linear-gradient(180deg, rgba(0, 174, 169, 0.08) 0%, transparent 100%)',
+          background: contact.heroImage ? `linear-gradient(rgba(4, 13, 15, 0.78), rgba(4, 13, 15, 0.9)), url(${contact.heroImage}) center/cover` : 'linear-gradient(180deg, rgba(0, 174, 169, 0.08) 0%, transparent 100%)',
           textAlign: 'center',
           position: 'relative'
         }}
@@ -67,14 +70,14 @@ const Contact = () => {
           <div style={{ marginBottom: '16px' }}>
             <span className="badge badge-cyan">
               <Sparkles size={13} color="var(--color-primary)" />
-              <span>Let's Build Together</span>
+              <span>{contact.badge || "Let's Build Together"}</span>
             </span>
           </div>
           <h1 style={{ marginBottom: '16px' }}>
-            Contact <span className="gradient-text">Savrion</span> Engineering
+            {contact.title || 'Contact Savrion Engineering'}
           </h1>
           <p style={{ fontSize: '1.15rem', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>
-            Have a project in mind or want to modernize your software architecture? Connect directly with our solutions architects.
+            {contact.subtitle || 'Have a project in mind or want to modernize your software architecture? Connect directly with our solutions architects.'}
           </p>
         </div>
       </section>
@@ -97,10 +100,10 @@ const Contact = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
               <div>
                 <h2 style={{ fontSize: '1.6rem', color: 'var(--color-white)', marginBottom: '8px' }}>
-                  Direct Channels
+                  {contact.directTitle || 'Direct Channels'}
                 </h2>
                 <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                  Our technical leadership team reviews all incoming inquiries promptly.
+                  {contact.directSubtitle || 'Our technical leadership team reviews all incoming inquiries promptly.'}
                 </p>
               </div>
 
@@ -200,14 +203,14 @@ const Contact = () => {
                 <div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Operating Hours</div>
                   <p style={{ color: 'var(--color-white)', fontWeight: 500, fontSize: '0.95rem', marginTop: '2px' }}>
-                    Mon – Fri: 8:00 AM – 7:00 PM EST (24/7 SLA Support)
+                    {contact.businessHours || 'Mon – Fri: 8:00 AM – 7:00 PM EST (24/7 SLA Support)'}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Interactive Form Component */}
-            <ContactForm />
+            <ContactForm settings={contact} />
           </div>
         </div>
       </section>

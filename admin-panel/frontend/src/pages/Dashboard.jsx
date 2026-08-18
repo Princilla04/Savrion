@@ -5,7 +5,6 @@ import {
   Briefcase, 
   MessageSquare, 
   Star, 
-  Cpu, 
   ArrowUpRight, 
   Plus, 
   Clock, 
@@ -46,7 +45,7 @@ const Dashboard = () => {
       color: 'var(--color-primary)'
     },
     {
-      title: 'Case Studies & Projects',
+      title: 'Products',
       value: stats?.projectsCount ?? 0,
       icon: Briefcase,
       link: '/projects',
@@ -60,13 +59,6 @@ const Dashboard = () => {
       link: '/contacts',
       color: '#F59E0B',
       highlight: (stats?.contactsUnread ?? 0) > 0
-    },
-    {
-      title: 'Technologies Listed',
-      value: stats?.technologiesCount ?? 0,
-      icon: Cpu,
-      link: '/technologies',
-      color: '#A78BFA'
     },
     {
       title: 'Client Testimonials',
@@ -97,7 +89,7 @@ const Dashboard = () => {
           </Link>
           <Link to="/projects" className="btn btn-secondary btn-sm">
             <Plus size={16} />
-            <span>Add Project</span>
+            <span>Add Product</span>
           </Link>
         </div>
       </div>

@@ -7,10 +7,11 @@ import {
   X, 
   CheckCircle2, 
   Briefcase, 
-  Star, 
   Upload,
   Loader2,
-  ExternalLink
+  ArrowUp,
+  ArrowDown,
+  GripVertical
 } from 'lucide-react';
 import { projectService } from '../services/projectService';
 import { uploadService } from '../services/uploadService';
@@ -26,7 +27,9 @@ const ManageProjects = () => {
   const [editingProject, setEditingProject] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingMedia, setUploadingMedia] = useState(false);
+  const [reordering, setReordering] = useState(false);
+  const [draggedProjectId, setDraggedProjectId] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -34,8 +37,10 @@ const ManageProjects = () => {
     title: '',
     slug: '',
     client: '',
-    category: 'FinTech & Financial Engineering',
+    category: '',
     bannerImage: '',
+    logo: '',
+    sampleVideo: '',
     shortDescription: '',
     problem: '',
     solution: '',
@@ -43,7 +48,8 @@ const ManageProjects = () => {
     features: '',
     technologies: '',
     liveUrl: '',
-    featured: false,
+    websiteUrl: '',
+    playStoreUrl: '',
     status: 'active',
     order: 0
   };
@@ -86,8 +92,10 @@ const ManageProjects = () => {
       title: project.title || '',
       slug: project.slug || '',
       client: project.client || '',
-      category: project.category || 'FinTech & Financial Engineering',
+      category: project.category || '',
       bannerImage: project.bannerImage || '',
+      logo: project.logo || '',
+      sampleVideo: project.sampleVideo || '',
       shortDescription: project.shortDescription || '',
       problem: project.problem || '',
       solution: project.solution || '',
@@ -95,7 +103,8 @@ const ManageProjects = () => {
       features: Array.isArray(project.features) ? project.features.join('\n') : (project.features || ''),
       technologies: Array.isArray(project.technologies) ? project.technologies.join(', ') : (project.technologies || ''),
       liveUrl: project.liveUrl || '',
-      featured: project.featured || false,
+      websiteUrl: project.websiteUrl || '',
+      playStoreUrl: project.playStoreUrl || '',
       status: project.status || 'active',
       order: project.order || 0
     });
@@ -103,21 +112,20 @@ const ManageProjects = () => {
     setIsModalOpen(true);
   };
 
-  const handleImageUpload = async (e) => {
+  const handleMediaUpload = async (e, field) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setUploadingImage(true);
+    setUploadingMedia(true);
     try {
-      const res = await uploadService.uploadImage(file);
+      const res = await uploadService.uploadMedia(file);
       if (res.url) {
-        const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:5050';
-        setFormData(prev => ({ ...prev, bannerImage: `${serverUrl}${res.url}` }));
+        setFormData(prev => ({ ...prev, [field]: uploadService.resolveMediaUrl(res.url) }));
       }
-    } catch (err) {
-      alert('Image upload failed: ' + err.message);
+    } catch {
+      alert('Media upload failed: ' + err.message);
     } finally {
-      setUploadingImage(false);
+      setUploadingMedia(false);
     }
   };
 
@@ -140,10 +148,10 @@ const ManageProjects = () => {
 
       if (editingProject) {
         await projectService.update(editingProject._id || editingProject.id, payload);
-        setSuccessMessage('Case study updated successfully.');
+        setSuccessMessage('Product updated successfully.');
       } else {
         await projectService.create(payload);
-        setSuccessMessage('New project created successfully.');
+        setSuccessMessage('New product created successfully.');
       }
 
       setIsModalOpen(false);
@@ -160,7 +168,7 @@ const ManageProjects = () => {
     try {
       await projectService.delete(id);
       setDeleteConfirmId(null);
-      setSuccessMessage('Project deleted successfully.');
+      setSuccessMessage('Product deleted successfully.');
       fetchProjects();
       setTimeout(() => setSuccessMessage(''), 4000);
     } catch (err) {
@@ -168,22 +176,59 @@ const ManageProjects = () => {
     }
   };
 
-  const categories = ['All', 'FinTech & Financial Engineering', 'HealthTech & Telemedicine', 'Logistics & Supply Chain', 'Cybersecurity & Cloud Governance', 'Media & Entertainment', 'Enterprise SaaS'];
+  const saveReorderedProjects = async (reordered) => {
+    const orderedProjects = reordered.map((project, index) => ({ ...project, order: index + 1 }));
+    setProjects(orderedProjects);
+    setReordering(true);
+    try {
+      await Promise.all(orderedProjects.map((project) => projectService.update(project._id || project.id, { order: project.order })));
+      setSuccessMessage('Product order updated successfully.');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (err) {
+      setSuccessMessage('Unable to update product order. Restoring the previous order.');
+      fetchProjects();
+    } finally {
+      setReordering(false);
+      setDraggedProjectId(null);
+    }
+  };
+
+  const handleMoveProject = async (currentIndex, direction) => {
+    const targetIndex = currentIndex + direction;
+    if (targetIndex < 0 || targetIndex >= projects.length || reordering) return;
+
+    const reordered = [...projects];
+    [reordered[currentIndex], reordered[targetIndex]] = [reordered[targetIndex], reordered[currentIndex]];
+    await saveReorderedProjects(reordered);
+  };
+
+  const handleDrop = async (targetId) => {
+    if (!draggedProjectId || draggedProjectId === targetId || reordering || search || categoryFilter !== 'All') return;
+    const sourceIndex = projects.findIndex((project) => (project._id || project.id) === draggedProjectId);
+    const targetIndex = projects.findIndex((project) => (project._id || project.id) === targetId);
+    if (sourceIndex < 0 || targetIndex < 0) return;
+    const reordered = [...projects];
+    const [moved] = reordered.splice(sourceIndex, 1);
+    reordered.splice(targetIndex, 0, moved);
+    await saveReorderedProjects(reordered);
+  };
+
+  const categories = ['All', ...new Set(projects.map((project) => project.category).filter(Boolean))];
 
   return (
     <div>
       {/* Header */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">Manage Projects & Case Studies</h1>
+          <h1 className="page-title">Manage Products</h1>
           <p className="page-subtitle">
-            Curate portfolio items and enterprise case studies displayed on the public website
+            Manage the products displayed on the public website
           </p>
         </div>
 
         <button onClick={handleOpenAdd} className="btn btn-primary" id="add-new-project-btn">
           <Plus size={18} />
-          <span>Add New Case Study</span>
+          <span>Add Product</span>
         </button>
       </div>
 
@@ -216,7 +261,7 @@ const ManageProjects = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search projects by title, client, or tech..."
+              placeholder="Search products by title, category, or technology..."
               className="form-input"
               style={{ paddingLeft: '38px' }}
             />
@@ -237,6 +282,16 @@ const ManageProjects = () => {
             Filter
           </button>
         </form>
+        {(search || categoryFilter !== 'All') && (
+          <p style={{ marginTop: '10px', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+            Clear filters to reorder the complete product list.
+          </p>
+        )}
+        {!search && categoryFilter === 'All' && (
+          <p style={{ marginTop: '10px', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+            Drag a product row using its handle to set its public website order.
+          </p>
+        )}
       </div>
 
       {/* Projects Table */}
@@ -245,10 +300,9 @@ const ManageProjects = () => {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Project & Banner</th>
+                <th>Product</th>
                 <th>Client</th>
                 <th>Category</th>
-                <th>Featured</th>
                 <th>Status</th>
                 <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
@@ -256,35 +310,51 @@ const ManageProjects = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center', padding: '30px', color: 'var(--color-text-muted)' }}>
-                    Loading projects...
+                  <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: 'var(--color-text-muted)' }}>
+                    Loading products...
                   </td>
                 </tr>
               ) : projects.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center', padding: '30px', color: 'var(--color-text-muted)' }}>
-                    No case studies found matching criteria.
+                  <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: 'var(--color-text-muted)' }}>
+                    No products found matching criteria.
                   </td>
                 </tr>
               ) : (
-                projects.map((p) => (
-                  <tr key={p._id || p.id}>
+                projects.map((p, index) => {
+                  const projectId = p._id || p.id;
+                  const canDrag = !reordering && !search && categoryFilter === 'All';
+                  return (
+                  <tr
+                    key={projectId}
+                    draggable={canDrag}
+                    onDragStart={() => setDraggedProjectId(projectId)}
+                    onDragOver={(event) => { if (canDrag) event.preventDefault(); }}
+                    onDrop={() => handleDrop(projectId)}
+                    onDragEnd={() => setDraggedProjectId(null)}
+                    style={{ opacity: draggedProjectId === projectId ? 0.5 : 1, cursor: canDrag ? 'grab' : 'default' }}
+                  >
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <GripVertical size={18} color="var(--color-text-muted)" aria-label="Drag to reorder" style={{ flexShrink: 0 }} />
                         {p.bannerImage ? (
                           <img 
                             src={p.bannerImage} 
-                            alt={p.title} 
-                            style={{ width: '48px', height: '36px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }} 
+                            alt={`${p.title} banner`}
+                            style={{ width: '96px', height: '54px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', flexShrink: 0 }}
                           />
+                        ) : p.logo ? (
+                          <div style={{ width: '54px', height: '54px', background: '#fff', borderRadius: 'var(--radius-sm)', padding: '6px', border: '1px solid var(--color-border)', flexShrink: 0 }}>
+                            <img src={p.logo} alt={`${p.title} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                          </div>
                         ) : (
-                          <div style={{ width: '48px', height: '36px', background: 'var(--color-surface)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ width: '54px', height: '54px', background: 'var(--color-surface)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <Briefcase size={18} color="var(--color-primary)" />
                           </div>
                         )}
                         <div>
                           <div style={{ fontWeight: 600, color: 'var(--color-white)' }}>{p.title}</div>
-                          <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}>/projects/{p.slug}</div>
+                          <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}>/products/{p.slug}</div>
                         </div>
                       </div>
                     </td>
@@ -295,16 +365,6 @@ const ManageProjects = () => {
                       </span>
                     </td>
                     <td>
-                      {p.featured ? (
-                        <span className="badge badge-unread" style={{ gap: '4px' }}>
-                          <Star size={12} fill="var(--color-primary)" />
-                          <span>Featured</span>
-                        </span>
-                      ) : (
-                        <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>Standard</span>
-                      )}
-                    </td>
-                    <td>
                       <span className={`badge ${p.status === 'active' ? 'badge-active' : 'badge-inactive'}`}>
                         {p.status}
                       </span>
@@ -312,23 +372,42 @@ const ManageProjects = () => {
                     <td style={{ textAlign: 'right' }}>
                       <div style={{ display: 'inline-flex', gap: '6px' }}>
                         <button 
+                          onClick={() => handleMoveProject(index, -1)}
+                          disabled={index === 0 || reordering || search || categoryFilter !== 'All'}
+                          className="btn btn-secondary btn-icon"
+                          title="Move product up"
+                          aria-label={`Move ${p.title} up`}
+                        >
+                          <ArrowUp size={15} />
+                        </button>
+                        <button 
+                          onClick={() => handleMoveProject(index, 1)}
+                          disabled={index === projects.length - 1 || reordering || search || categoryFilter !== 'All'}
+                          className="btn btn-secondary btn-icon"
+                          title="Move product down"
+                          aria-label={`Move ${p.title} down`}
+                        >
+                          <ArrowDown size={15} />
+                        </button>
+                        <button 
                           onClick={() => handleOpenEdit(p)}
                           className="btn btn-secondary btn-icon"
-                          title="Edit Project"
+                          title="Edit Product"
                         >
                           <Edit3 size={15} />
                         </button>
                         <button 
                           onClick={() => setDeleteConfirmId(p._id || p.id)}
                           className="btn btn-danger-outline btn-icon"
-                          title="Delete Project"
+                          title="Delete Product"
                         >
                           <Trash2 size={15} />
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -343,7 +422,7 @@ const ManageProjects = () => {
           <div className="modal-content modal-content-lg">
             <div className="modal-header">
               <h3 style={{ fontSize: '1.25rem', color: 'var(--color-white)' }}>
-                {editingProject ? 'Edit Case Study' : 'Create New Project Case Study'}
+                {editingProject ? 'Edit Product' : 'Create Product'}
               </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
@@ -389,15 +468,20 @@ const ManageProjects = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label className="form-label">Category</label>
-                    <select 
+                    <input
+                      type="text"
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="form-select"
-                    >
-                      {categories.filter(c => c !== 'All').map(c => (
-                        <option key={c} value={c}>{c}</option>
+                      placeholder="e.g. Attendance Management"
+                      className="form-input"
+                      list="product-category-suggestions"
+                      required
+                    />
+                    <datalist id="product-category-suggestions">
+                      {categories.filter((category) => category !== 'All').map((category) => (
+                        <option key={category} value={category} />
                       ))}
-                    </select>
+                    </datalist>
                   </div>
 
                   <div className="form-group">
@@ -414,7 +498,7 @@ const ManageProjects = () => {
 
                 {/* Banner Image URL & File Upload */}
                 <div className="form-group">
-                  <label className="form-label">Banner Image (URL or Upload Image File)</label>
+                  <label className="form-label">Product Banner (URL or Upload Image)</label>
                   <div style={{ display: 'flex', gap: '10px' }}>
                     <input 
                       type="text"
@@ -426,11 +510,11 @@ const ManageProjects = () => {
                     />
                     <label className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', margin: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                       <Upload size={15} />
-                      <span>{uploadingImage ? 'Uploading...' : 'Upload Image'}</span>
+                      <span>{uploadingMedia ? 'Uploading...' : 'Upload Image'}</span>
                       <input 
                         type="file" 
                         accept="image/*" 
-                        onChange={handleImageUpload} 
+                        onChange={(e) => handleMediaUpload(e, 'bannerImage')}
                         style={{ display: 'none' }} 
                       />
                     </label>
@@ -440,6 +524,29 @@ const ManageProjects = () => {
                       <img src={formData.bannerImage} alt="Banner Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Product Logo (URL or Upload Image)</label>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <input type="text" value={formData.logo} onChange={(e) => setFormData({ ...formData, logo: e.target.value })} placeholder="https://... or /uploads/..." className="form-input" style={{ flex: 1 }} />
+                      <label className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', margin: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <Upload size={15} /><span>{uploadingMedia ? 'Uploading...' : 'Upload Logo'}</span>
+                        <input type="file" accept="image/*" onChange={(e) => handleMediaUpload(e, 'logo')} style={{ display: 'none' }} />
+                      </label>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Sample Video (URL or Upload Video)</label>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <input type="text" value={formData.sampleVideo} onChange={(e) => setFormData({ ...formData, sampleVideo: e.target.value })} placeholder="https://... or /uploads/..." className="form-input" style={{ flex: 1 }} />
+                      <label className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', margin: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <Upload size={15} /><span>{uploadingMedia ? 'Uploading...' : 'Upload Video'}</span>
+                        <input type="file" accept="video/mp4,video/webm,video/ogg" onChange={(e) => handleMediaUpload(e, 'sampleVideo')} style={{ display: 'none' }} />
+                      </label>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="form-group">
@@ -513,28 +620,30 @@ const ManageProjects = () => {
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label className="form-label">Live Demo / Case URL</label>
+                    <label className="form-label">Website Link</label>
                     <input 
                       type="url"
-                      value={formData.liveUrl}
-                      onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                      placeholder="https://example.com"
+                      value={formData.websiteUrl}
+                      onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
+                      placeholder="https://your-product.com"
                       className="form-input"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Featured & Visibility</label>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', height: '42px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>
-                        <input 
-                          type="checkbox"
-                          checked={formData.featured}
-                          onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                        />
-                        <span>Homepage Featured</span>
-                      </label>
+                    <label className="form-label">Google Play Store Link</label>
+                    <input 
+                      type="url"
+                      value={formData.playStoreUrl}
+                      onChange={(e) => setFormData({ ...formData, playStoreUrl: e.target.value })}
+                      placeholder="https://play.google.com/store/apps/details?id=..."
+                      className="form-input"
+                    />
+                  </div>
 
+                  <div className="form-group">
+                    <label className="form-label">Visibility</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', height: '42px' }}>
                       <select 
                         value={formData.status}
                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
@@ -564,7 +673,7 @@ const ManageProjects = () => {
                   id="save-project-submit-btn"
                 >
                   {formLoading ? <Loader2 size={16} className="animate-spin-slow" /> : null}
-                  <span>{editingProject ? 'Update Case Study' : 'Create Case Study'}</span>
+                  <span>{editingProject ? 'Update Product' : 'Create Product'}</span>
                 </button>
               </div>
             </form>

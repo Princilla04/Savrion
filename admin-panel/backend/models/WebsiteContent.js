@@ -33,10 +33,22 @@ const WebsiteContentSchema = new mongoose.Schema({
     phone: { type: String, default: '+1 (800) 555-0199' },
     address: { type: String, default: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City' },
     socials: {
-      github: { type: String, default: 'https://github.com' },
-      linkedin: { type: String, default: 'https://linkedin.com' },
-      twitter: { type: String, default: 'https://twitter.com' }
+      github: { type: String, default: '' },
+      linkedin: { type: String, default: '' },
+      twitter: { type: String, default: '' }
     }
+  },
+  contact: {
+    badge: { type: String, default: "Let's Build Together" },
+    title: { type: String, default: 'Contact Savrion Engineering' },
+    subtitle: { type: String, default: 'Have a project in mind? Connect directly with our solutions architects.' },
+    heroImage: { type: String, default: '' },
+    directTitle: { type: String, default: 'Direct Channels' },
+    directSubtitle: { type: String, default: 'Our technical leadership team reviews all incoming inquiries promptly.' },
+    businessHours: { type: String, default: 'Mon – Fri: 8:00 AM – 7:00 PM EST (24/7 SLA Support)' },
+    formTitle: { type: String, default: 'Initiate a Technical Consultation' },
+    formSubtitle: { type: String, default: 'Tell us about your technical roadmap, upcoming milestones, or software requirements.' },
+    faqs: [{ question: { type: String }, answer: { type: String } }]
   },
   stats: [{
     label: { type: String },

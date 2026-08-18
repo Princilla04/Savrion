@@ -57,14 +57,14 @@ const Projects = () => {
           <div style={{ marginBottom: '16px' }}>
             <span className="badge badge-cyan">
               <Sparkles size={13} color="var(--color-primary)" />
-              <span>Proven Track Record</span>
+              <span>Our Products</span>
             </span>
           </div>
           <h1 style={{ marginBottom: '16px' }}>
-            Featured Case Studies & <span className="gradient-text">Projects</span>
+            Explore Our <span className="gradient-text">Products</span>
           </h1>
           <p style={{ fontSize: '1.15rem', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginBottom: 'var(--space-2xl)' }}>
-            Discover how Savrion architects high-concurrency systems, cloud platforms, and modern enterprise software across diverse industries.
+            Discover Savrion's purpose-built products for attendance management and car rental operations.
           </p>
 
           {/* Search & Category Filter */}
@@ -75,7 +75,7 @@ const Projects = () => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search projects by name, client, or tech..."
+                placeholder="Search products by name or technology..."
                 className="form-input"
                 style={{ paddingLeft: '44px', background: 'var(--color-card)', borderRadius: 'var(--radius-full)' }}
               />
@@ -115,7 +115,7 @@ const Projects = () => {
         <div className="container">
           {filteredProjects.length === 0 ? (
             <div className="card text-center" style={{ padding: 'var(--space-3xl)', textAlign: 'center' }}>
-              <h3 style={{ color: 'var(--color-white)', marginBottom: '8px' }}>No case studies found</h3>
+              <h3 style={{ color: 'var(--color-white)', marginBottom: '8px' }}>No products found</h3>
               <p style={{ color: 'var(--color-text-secondary)' }}>Try selecting a different category or search term.</p>
             </div>
           ) : (

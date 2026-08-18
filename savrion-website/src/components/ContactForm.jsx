@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { contactService } from '../services/contactService';
+import { trackEvent } from '../services/analytics';
 
-const ContactForm = () => {
+const ContactForm = ({ settings = {} }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,6 +51,8 @@ const ContactForm = () => {
 
     try {
       const response = await contactService.sendMessage(formData);
+      trackEvent('contact_form_submission', { form_name: 'contact_form' });
+      trackEvent('generate_lead', { lead_type: 'contact_enquiry' });
       setSubmitStatus('success');
       setFeedbackMessage(response.message || 'Thank you! Your message has been sent successfully. Our team will reach out within 24 hours.');
       setFormData({
@@ -79,10 +82,10 @@ const ContactForm = () => {
       }}
     >
       <h3 style={{ fontSize: '1.5rem', marginBottom: '8px', color: 'var(--color-white)' }}>
-        Initiate a Technical Consultation
+        {settings.formTitle || 'Initiate a Technical Consultation'}
       </h3>
       <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.925rem', marginBottom: 'var(--space-xl)' }}>
-        Tell us about your technical roadmap, upcoming milestones, or software requirements.
+        {settings.formSubtitle || 'Tell us about your technical roadmap, upcoming milestones, or software requirements.'}
       </p>
 
       {submitStatus === 'success' && (

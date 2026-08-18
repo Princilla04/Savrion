@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  Code2, 
   LayoutDashboard, 
   Layers, 
   Briefcase, 
-  Cpu, 
   MessageSquare, 
   Star, 
   Globe, 
@@ -13,17 +11,19 @@ import {
   ExternalLink, 
   Menu, 
   X, 
-  User, 
-  ChevronRight,
-  Shield
+  User,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { contactService } from '../services/contactService';
+import savrionLogo from '../../../../savrion-website/src/assets/savrion-word.svg';
 
 const AdminLayout = () => {
   const { admin, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [theme, setTheme] = useState(() => localStorage.getItem('savrion_admin_theme') || 'dark');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,6 +49,11 @@ const AdminLayout = () => {
     setMobileOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('savrion_admin_theme', theme);
+  }, [theme]);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -57,8 +62,7 @@ const AdminLayout = () => {
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { name: 'Services', path: '/services', icon: Layers },
-    { name: 'Projects', path: '/projects', icon: Briefcase },
-    { name: 'Technologies', path: '/technologies', icon: Cpu },
+    { name: 'Products', path: '/projects', icon: Briefcase },
     { name: 'Contact Inquiries', path: '/contacts', icon: MessageSquare, badge: unreadCount },
     { name: 'Testimonials', path: '/testimonials', icon: Star },
     { name: 'Website Content', path: '/content', icon: Globe }
@@ -73,22 +77,7 @@ const AdminLayout = () => {
         {/* Sidebar Header */}
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <div 
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'var(--color-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--color-black)',
-                fontWeight: 'bold'
-              }}
-            >
-              <Code2 size={20} strokeWidth={2.5} />
-            </div>
-            <span>SAVRION<span style={{ color: 'var(--color-primary)' }}>.</span></span>
+            <img src={savrionLogo} alt="Savrion" className="sidebar-brand-logo" />
           </div>
 
           <button 
@@ -190,12 +179,22 @@ const AdminLayout = () => {
             >
               <Menu size={22} />
             </button>
-            <span style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
+            <span className="admin-portal-title" style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
               Savrion Management Portal
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+              <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+            </button>
             <a 
               href={websiteUrl} 
               target="_blank" 
@@ -203,7 +202,7 @@ const AdminLayout = () => {
               className="btn btn-secondary btn-sm"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
             >
-              <span>Live Website</span>
+              <span className="live-website-label">Live Website</span>
               <ExternalLink size={14} color="var(--color-primary)" />
             </a>
           </div>

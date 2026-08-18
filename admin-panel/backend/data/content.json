@@ -2,7 +2,7 @@
   {
     "_id": "doc_1786945945049_0bklc2",
     "createdAt": "2026-08-17T05:52:25.049Z",
-    "updatedAt": "2026-08-17T05:52:25.049Z",
+    "updatedAt": "2026-08-17T12:48:31.764Z",
     "key": "global_content",
     "hero": {
       "badge": "Next-Generation Software Engineering",
@@ -34,22 +34,34 @@
       ]
     },
     "company": {
-      "name": "Savrion",
+      "name": "Savrion Technologies",
       "tagline": "Empowering Businesses Through Advanced Software Solutions",
-      "email": "contact@savrion.com",
-      "phone": "+1 (800) 555-0199",
+      "email": "contact@savrion.in",
+      "phone": "+91-9566546937",
       "address": "100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City",
       "socials": {
-        "github": "https://github.com",
-        "linkedin": "https://linkedin.com",
-        "twitter": "https://twitter.com"
+        "github": "",
+        "linkedin": "",
+        "twitter": ""
       }
+    },
+    "contact": {
+      "badge": "Let's Build Together",
+      "title": "Contact Savrion Engineering",
+      "subtitle": "Have a project in mind or want to modernize your software architecture? Connect directly with our solutions architects.",
+      "heroImage": "",
+      "directTitle": "Direct Channels",
+      "directSubtitle": "Our technical leadership team reviews all incoming inquiries promptly.",
+      "businessHours": "Mon – Fri: 8:00 AM – 7:00 PM EST (24/7 SLA Support)",
+      "formTitle": "Initiate a Technical Consultation",
+      "formSubtitle": "Tell us about your technical roadmap, upcoming milestones, or software requirements.",
+      "faqs": []
     },
     "stats": [
       {
         "label": "Projects Delivered",
-        "value": "150+",
-        "description": "Across 18+ industries worldwide"
+        "value": "5+",
+        "description": "Across 2+ industries worldwide"
       },
       {
         "label": "Client Satisfaction",
@@ -58,13 +70,8 @@
       },
       {
         "label": "Expert Engineers",
-        "value": "45+",
+        "value": "5+",
         "description": "Specialized architects and developers"
-      },
-      {
-        "label": "System Uptime SLA",
-        "value": "99.99%",
-        "description": "Enterprise reliability guarantee"
       }
     ]
   }

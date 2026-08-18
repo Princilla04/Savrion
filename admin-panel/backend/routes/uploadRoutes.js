@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../config/multer');
-const { uploadImage } = require('../controllers/uploadController');
+const { uploadMedia } = require('../controllers/uploadController');
 const { protect } = require('../middleware/authMiddleware');
 
-router.post('/', protect, upload.single('image'), uploadImage);
+router.post('/', protect, upload.single('file'), uploadMedia);
 
 module.exports = router;

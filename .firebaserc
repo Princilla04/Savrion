@@ -12,6 +12,14 @@
           "savrion-admin-1195c"
         ]
       }
+    },
+    "savrionwebsiteadminpanel": {
+      "hosting": {
+        "admin": [
+          "savrionwebsiteadminpanel"
+        ]
+      }
     }
-  }
+  },
+  "etags": {}
 }

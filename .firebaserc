@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "savrion-website"
+    "default": "savrion-website-1195c"
   },
   "targets": {
-    "savrion-website": {
+    "savrion-website-1195c": {
       "hosting": {
         "website": [
-          "savrion-website"
+          "savrion-website-1195c"
         ],
         "admin": [
-          "savrion-admin"
+          "savrion-admin-1195c"
         ]
       }
     }

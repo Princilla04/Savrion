@@ -1,4 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
+const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && !envUrl.includes('localhost')) {
+    return envUrl;
+  }
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://savrion-website.onrender.com/api';
+  }
+  return envUrl || 'http://localhost:5050/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const request = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;

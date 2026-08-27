@@ -12,6 +12,9 @@
     "install:all": "npm install && npm install --prefix savrion-website && npm install --prefix admin-panel/frontend && npm install --prefix admin-panel/backend",
     "build:website": "npm run build --prefix savrion-website",
     "build:admin": "npm run build --prefix admin-panel/frontend",
+    "build:all": "npm run build:website && npm run build:admin",
+    "deploy:hosting": "firebase deploy --only hosting:website,hosting:admin",
+    "deploy": "npm run build:all && firebase deploy --only hosting:website,hosting:admin",
     "preflight": "powershell -ExecutionPolicy Bypass -File scripts/preflight.ps1"
   },
   "devDependencies": {

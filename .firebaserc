@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "savrion-website"
+  },
+  "targets": {
+    "savrion-website": {
+      "hosting": {
+        "website": [
+          "savrion-website"
+        ],
+        "admin": [
+          "savrion-admin"
+        ]
+      }
+    }
+  }
+}

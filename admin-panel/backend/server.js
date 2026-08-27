@@ -21,19 +21,45 @@ const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
-// Middleware
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || [process.env.CLIENT_URL, process.env.ADMIN_URL, 'http://localhost:5173', 'http://localhost:5174'].filter(Boolean).join(','))
+// Comprehensive Production & Local CORS Configuration
+const defaultOrigins = [
+  'https://savrion.in',
+  'https://www.savrion.in',
+  'https://admin.savrion.in',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000'
+];
+
+const envOrigins = (process.env.ALLOWED_ORIGINS || `${process.env.CLIENT_URL || ''},${process.env.ADMIN_URL || ''}`)
   .split(',')
-  .map((origin) => origin.trim())
+  .map((o) => o.trim())
   .filter(Boolean);
 
-app.use(cors({
+const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
+
+const corsOptions = {
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error('Origin is not allowed by CORS policy.'));
+    // Allow requests with no origin (mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+
+    const isAllowed = allowedOrigins.includes(origin) ||
+      origin.endsWith('.savrion.in') ||
+      origin.endsWith('.web.app') ||
+      origin.endsWith('.onrender.com');
+
+    if (isAllowed) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Origin ${origin} is not allowed by CORS policy.`));
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

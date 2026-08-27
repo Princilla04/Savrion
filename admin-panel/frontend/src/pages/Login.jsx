@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Lock, Mail, ArrowRight, AlertCircle, Loader2, KeyRound } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import savrionLogo from '../../../../savrion-website/src/assets/savrion-word.svg';
 
 const Login = () => {
@@ -12,12 +12,6 @@ const Login = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const handleFillDefaults = () => {
-    setEmail('admin@savrion.com');
-    setPassword('SavrionAdmin2026!');
-    setError('');
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,7 +113,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@savrion.com"
+                placeholder="admin@savrion.in"
                 className="form-input"
                 style={{ paddingLeft: '42px' }}
                 autoComplete="email"
@@ -166,39 +160,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        {/* Demo Credentials Helper Pill */}
-        <div 
-          style={{
-            marginTop: 'var(--space-xl)',
-            paddingTop: 'var(--space-md)',
-            borderTop: '1px solid var(--color-border-light)',
-            textAlign: 'center'
-          }}
-        >
-          <button
-            type="button"
-            onClick={handleFillDefaults}
-            style={{
-              background: 'rgba(var(--color-primary-rgb), 0.08)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 14px',
-              color: 'var(--color-primary-light)',
-              fontSize: '0.8rem',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <KeyRound size={14} />
-            <span>Fill Default Admin Credentials</span>
-          </button>
-          <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '6px' }}>
-            admin@savrion.com / SavrionAdmin2026!
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { projectService } from '../services/projectService';
 import { uploadService } from '../services/uploadService';
+import { getMediaUrl } from '../utils/mediaUtils';
 
 const ManageProjects = () => {
   const [projects, setProjects] = useState([]);

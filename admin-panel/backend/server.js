@@ -45,7 +45,23 @@ if (process.env.NODE_ENV === 'development') {
 // Serve Static Uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Health Check API
+// Root & Health Check APIs
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    system: 'Savrion Software Solutions API Server',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      services: '/api/services',
+      projects: '/api/projects',
+      technologies: '/api/technologies',
+      testimonials: '/api/testimonials',
+      websiteContent: '/api/website-content'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',

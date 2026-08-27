@@ -21,45 +21,47 @@ const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
-// Comprehensive Production & Local CORS Configuration
-const defaultOrigins = [
-  'https://savrion.in',
-  'https://www.savrion.in',
-  'https://admin.savrion.in',
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:3000'
-];
+// Custom Flexible CORS Middleware
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-const envOrigins = (process.env.ALLOWED_ORIGINS || `${process.env.CLIENT_URL || ''},${process.env.ADMIN_URL || ''}`)
-  .split(',')
-  .map((o) => o.trim())
-  .filter(Boolean);
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
 
-const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
+// JSON Response Transformer to automatically convert local upload URLs to HTTPS host URLs
+app.use((req, res, next) => {
+  const originalJson = res.json;
+  res.json = function (data) {
+    if (data && typeof data === 'object') {
+      try {
+        const host = req.headers.host || 'savrion-website.onrender.com';
+        const protocol = req.headers['x-forwarded-proto'] || (req.secure ? 'https' : 'http');
+        const serverBaseUrl = `${protocol}://${host}`;
 
-const corsOptions = {
-  origin(origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, server-to-server)
-    if (!origin) return callback(null, true);
-
-    const isAllowed = allowedOrigins.includes(origin) ||
-      origin.endsWith('.savrion.in') ||
-      origin.endsWith('.web.app') ||
-      origin.endsWith('.onrender.com');
-
-    if (isAllowed) {
-      return callback(null, true);
+        let jsonString = JSON.stringify(data);
+        if (jsonString.includes('http://localhost:5050/uploads/')) {
+          jsonString = jsonString.replaceAll('http://localhost:5050/uploads/', `${serverBaseUrl}/uploads/`);
+        }
+        data = JSON.parse(jsonString);
+      } catch (err) {
+        // Fallback to original data if stringify fails
+      }
     }
-    return callback(new Error(`Origin ${origin} is not allowed by CORS policy.`));
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+    return originalJson.call(this, data);
+  };
+  next();
+});
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

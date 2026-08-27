@@ -16,6 +16,7 @@ import {
 import { contentService } from '../services/contentService';
 import CTASection from '../components/CTASection';
 import { trackEvent } from '../services/analytics';
+import { getMediaUrl } from '../utils/mediaUtils';
 
 const ProjectDetail = () => {
   const { slug } = useParams();
@@ -29,26 +30,33 @@ const ProjectDetail = () => {
       try {
         const [singleProject, all] = await Promise.all([
           contentService.getProjectBySlug(slug),
-          contentService.getProjects({ status: 'active' })
+          contentService.getProjects()
         ]);
-        if (singleProject) setProject(singleProject);
-        if (singleProject) trackEvent('view_product', { product_slug: slug });
-        if (all) setAllProjects(all);
+        setProject(singleProject);
+        setAllProjects(all || []);
+
+        if (singleProject) {
+          trackEvent('view_project_detail', { slug: singleProject.slug, title: singleProject.title });
+        }
       } catch (err) {
-        console.warn('Error loading project:', err);
+        console.error('Error fetching project detail:', err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProjectData();
+    window.scrollTo(0, 0);
   }, [slug]);
+
+  const defaultBanner = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80";
 
   if (loading) {
     return (
-      <div className="container section-py" style={{ textAlign: 'center', minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ color: 'var(--color-primary-light)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Sparkles size={24} className="animate-spin-slow" />
-          <span>Loading product...</span>
+      <div className="section-py text-center container">
+        <div style={{ padding: '80px 0' }}>
+          <div className="spinner" style={{ margin: '0 auto 20px' }}></div>
+          <p style={{ color: 'var(--color-text-secondary)' }}>Loading case study details...</p>
         </div>
       </div>
     );
@@ -56,57 +64,63 @@ const ProjectDetail = () => {
 
   if (!project) {
     return (
-      <div className="container section-py" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <h2 style={{ marginBottom: '16px', color: 'var(--color-white)' }}>Product Not Found</h2>
-        <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)' }}>
-          The requested product does not exist or may have been updated.
-        </p>
-        <Link to="/products" className="btn btn-primary">
-          <ArrowLeft size={18} />
-          <span>Back to Products</span>
-        </Link>
+      <div className="section-py text-center container">
+        <div className="card" style={{ maxWidth: '560px', margin: '40px auto', padding: 'var(--space-2xl)' }}>
+          <h2 style={{ marginBottom: '16px' }}>Project Not Found</h2>
+          <p style={{ color: 'var(--color-text-secondary)', marginBottom: '24px' }}>
+            The case study you are looking for does not exist or has been archived.
+          </p>
+          <Link to="/products" className="btn btn-primary">
+            <ArrowLeft size={16} />
+            <span>Back to Products</span>
+          </Link>
+        </div>
       </div>
     );
   }
 
-  const defaultBanner = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80";
-  const otherProjects = allProjects.filter(p => p.slug !== slug).slice(0, 2);
-
   return (
-    <div>
+    <div className="project-detail-page">
       {/* ==========================================================
-          HERO & BREADCRUMBS
+          HEADER BREADCRUMB & HERO METADATA
           ========================================================== */}
       <section 
         style={{
-          paddingTop: 'var(--space-3xl)',
+          paddingTop: 'calc(var(--header-height) + 40px)',
           paddingBottom: 'var(--space-2xl)',
-          background: 'linear-gradient(180deg, rgba(0, 174, 169, 0.08) 0%, transparent 100%)',
-          position: 'relative'
+          background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 174, 169, 0.15), transparent 70%)'
         }}
       >
         <div className="container">
-          {/* Breadcrumbs */}
-          <div className="breadcrumbs">
-            <Link to="/">Home</Link>
-            <span>/</span>
-            <Link to="/products">Products</Link>
-            <span>/</span>
-            <span className="active">{project.title}</span>
-          </div>
+          <Link 
+            to="/products" 
+            style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '8px', 
+              color: 'var(--color-primary-light)', 
+              fontSize: '0.9rem', 
+              marginBottom: 'var(--space-xl)',
+              fontWeight: 600
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span>Back to Portfolio & Products</span>
+          </Link>
 
-          <div style={{ maxWidth: '900px', marginTop: 'var(--space-md)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
-              <span className="badge badge-cyan">
+          <div style={{ maxWidth: '820px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', marginBottom: '16px' }}>
+              <span className="badge badge-primary">
+                <Tag size={12} />
                 {project.category}
               </span>
               <span 
-                style={{
-                  fontSize: '0.85rem',
+                style={{ 
+                  fontSize: '0.85rem', 
                   color: 'var(--color-text-muted)',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '5px'
+                  gap: '6px'
                 }}
               >
                 <Building size={14} color="var(--color-primary)" />
@@ -115,7 +129,7 @@ const ProjectDetail = () => {
             </div>
 
             {project.logo && (
-              <img src={project.logo} alt={`${project.title} logo`} style={{ width: '72px', height: '72px', objectFit: 'contain', background: '#fff', borderRadius: '14px', padding: '8px', marginBottom: '16px' }} />
+              <img src={getMediaUrl(project.logo)} alt={`${project.title} logo`} style={{ width: '72px', height: '72px', objectFit: 'contain', background: '#fff', borderRadius: '14px', padding: '8px', marginBottom: '16px' }} />
             )}
             <h1 style={{ marginBottom: '20px' }}>
               {project.title}
@@ -150,7 +164,7 @@ const ProjectDetail = () => {
           <div className="container">
             <h2 style={{ fontSize: '1.6rem', marginBottom: 'var(--space-lg)' }}>Product Walkthrough</h2>
             <video controls preload="metadata" style={{ width: '100%', maxHeight: '620px', borderRadius: 'var(--radius-xl)', background: '#000', border: '1px solid var(--color-border)' }}>
-              <source src={project.sampleVideo} />
+              <source src={getMediaUrl(project.sampleVideo)} />
               Your browser does not support video playback.
             </video>
           </div>
@@ -173,7 +187,7 @@ const ProjectDetail = () => {
             }}
           >
             <img 
-              src={project.bannerImage || defaultBanner} 
+              src={getMediaUrl(project.bannerImage) || defaultBanner} 
               alt={project.title}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               onError={(e) => { e.target.src = defaultBanner; }}

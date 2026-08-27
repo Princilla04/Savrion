@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { getMediaUrl } from '../utils/mediaUtils';
 
 const ProjectCard = ({ project }) => {
   const defaultImage = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80";
@@ -28,11 +29,11 @@ const ProjectCard = ({ project }) => {
       >
         {project.logo && (
           <div style={{ position: 'absolute', top: '14px', right: '14px', zIndex: 3, width: '52px', height: '52px', background: 'rgba(255, 255, 255, 0.96)', borderRadius: '12px', padding: '6px', boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)' }}>
-            <img src={project.logo} alt={`${project.title} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            <img src={getMediaUrl(project.logo)} alt={`${project.title} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
         )}
         <img 
-          src={project.bannerImage || defaultImage} 
+          src={getMediaUrl(project.bannerImage) || defaultImage} 
           alt={project.title}
           style={{
             width: '100%',
@@ -53,7 +54,6 @@ const ProjectCard = ({ project }) => {
             background: 'linear-gradient(to top, rgba(11, 18, 20, 0.95) 0%, rgba(11, 18, 20, 0.2) 60%, transparent 100%)'
           }}
         />
-
       </div>
 
       {/* Card Content Body */}

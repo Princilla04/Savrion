@@ -4,6 +4,8 @@
   "description": "Savrion Software Solutions Website & Admin Panel",
   "private": true,
   "scripts": {
+    "start": "node admin-panel/backend/server.js",
+    "build": "npm install --prefix admin-panel/backend",
     "dev": "concurrently -n \"BACKEND,WEBSITE,ADMIN\" -c \"blue,cyan,green\" \"npm run dev --prefix admin-panel/backend\" \"npm run dev --prefix savrion-website\" \"npm run dev --prefix admin-panel/frontend\"",
     "dev:website": "npm run dev --prefix savrion-website",
     "dev:admin-frontend": "npm run dev --prefix admin-panel/frontend",

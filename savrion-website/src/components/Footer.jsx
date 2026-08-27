@@ -32,9 +32,9 @@ const Footer = ({ content, services = [] }) => {
   const company = content?.company || {
     name: 'Savrion',
     tagline: 'Empowering Businesses Through Advanced Software Solutions',
-    email: 'contact@savrion.com',
-    phone: '+1 (800) 555-0199',
-    address: '100 Cyber Tower, Innovation Boulevard, Suite 500, Tech City',
+    email: 'contact@savrion.in',
+    phone: '+91-9566546937',
+    address: 'North Street, Vadugam, Rasipuram, Namakkal, Tamil Nadu, India - 637407',
     socials: {}
   };
 

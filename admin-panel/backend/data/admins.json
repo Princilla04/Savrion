@@ -12,11 +12,11 @@
   {
     "_id": "doc_1786948352842_gbxflg",
     "createdAt": "2026-08-17T06:32:32.842Z",
-    "updatedAt": "2026-08-17T06:39:19.974Z",
+    "updatedAt": "2026-08-18T04:07:12.312Z",
     "name": "Savrion Administrator",
     "email": "admin@savrion.in",
     "password": "$2b$10$xil89nRgyNqJSDrf5uPRwuj13XYGSsx2UXj85Rl.1Ub8X0qkGkMCK",
     "role": "superadmin",
-    "lastLogin": "2026-08-17T06:39:19.974Z"
+    "lastLogin": "2026-08-18T04:07:12.311Z"
   }
 ]

@@ -1,26 +1,15 @@
 [
   {
-    "_id": "doc_1786945945050_28fyrz",
-    "createdAt": "2026-08-17T05:52:25.050Z",
-    "updatedAt": "2026-08-17T05:52:25.050Z",
-    "name": "Jonathan Miller",
-    "email": "jonathan@vanguardtech.io",
-    "phone": "+1 (555) 234-5678",
-    "company": "Vanguard Technologies",
-    "subject": "Custom Cloud Architecture & Microservices Ingestion",
-    "message": "Hello Savrion team, we are planning to modernize our distributed payments backend and migrate to a Kubernetes-managed cloud infrastructure. We would love to discuss a prospective partnership.",
-    "status": "unread"
-  },
-  {
-    "_id": "doc_1786945945051_2sjplh",
-    "createdAt": "2026-08-17T05:52:25.051Z",
-    "updatedAt": "2026-08-17T05:52:25.051Z",
-    "name": "Sarah Chen",
-    "email": "sarah.chen@nexusecommerce.com",
-    "phone": "+1 (555) 987-6543",
-    "company": "Nexus eCommerce Corp",
-    "subject": "High-Performance React Web Application Development",
-    "message": "Looking for an experienced software engineering agency to build our next-generation customer analytics portal with real-time websocket charting.",
-    "status": "read"
+    "_id": "doc_1786972141181_einwih",
+    "createdAt": "2026-08-17T13:09:01.181Z",
+    "updatedAt": "2026-08-17T13:10:44.542Z",
+    "name": "Sanjay A",
+    "email": "sanjayasokan123@gmail.com",
+    "phone": "09566546937",
+    "company": "Flytutor",
+    "subject": "cxxc",
+    "message": "fsf",
+    "status": "read",
+    "notes": ""
   }
 ]
